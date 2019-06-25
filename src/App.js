@@ -1,36 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { Switch, Route } from 'react-router-dom'
+
 import './App.css';
-import { Navbar, Nav, Dropdown } from 'react-bootstrap'
+import Pages from './pages'
+import { fetchUser } from './actions/userActions'
+import withAuth from './hocs/withAuth'
 
-export default class App extends Component {
+class App extends Component {
   render() {
+    console.log("App props", this.props)
     return (
-      <div className="App">
-        <Navbar bg="light">
-          <Navbar.Brand>Alexandria</Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse>
-            <Nav className="justify-content-end" style={{width: "100%"}}>
-              <Nav.Item>
-                Hello
-              </Nav.Item>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Dropdown Button
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => console.log("#/action-1")}>Action</Dropdown.Item>
-            <Dropdown.Item onClick={() => console.log("#/action-2")}>Another action</Dropdown.Item>
-            <Dropdown.Item onClick={() => console.log("#/action-3")}>Something else</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-
-      </div>
+      <Switch>
+        <Route exact path="/login" render={props => <Pages.LoginPage {...props} {...this.props}/>}/>
+        <Route exact path="/signup" render={props => <Pages.SignupPage {...props} {...this.props}/>}/>
+        <Route exact path="/" render={props => <Pages.HomePage {...props} {...this.props}/>}/>
+      </Switch>
     )
   }
 }
+
+export default withAuth(App)
