@@ -12,6 +12,7 @@ class App extends Component {
     // console.log("App props", this.props)
     return (
       <Switch>
+        <Route exact path="/new" render={props => <Pages.NewDeckPage {...props} {...this.props}/>}/>
         <Route exact path="/login" render={props => <Pages.LoginPage {...props} {...this.props}/>}/>
         <Route exact path="/signup" render={props => <Pages.SignupPage {...props} {...this.props}/>}/>
         <Route exact path="/" render={props => <Pages.HomePage {...props} {...this.props}/>}/>

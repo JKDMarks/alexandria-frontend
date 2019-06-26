@@ -3,10 +3,19 @@
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css");
 
 @font-face {
-  font-family: Beleren;
-  src: '../public/fonts/Beleren.tff';
+  font-family: 'Beleren';
+  src: url('./fonts/Beleren.tff');
 }
 
 html, body, #root {
   height: 100%;
+}
+
+nav button {
+  height: 37.5px !important;
+}
+
+nav span.navbar-brand:hover {
+  color: mediumslateblue !important;
+  cursor: pointer;
 }

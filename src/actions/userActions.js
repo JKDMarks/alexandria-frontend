@@ -51,3 +51,25 @@ export function signupUser({ username, password, passwordConfirm }) {
       })
   }
 }
+
+export function favoriteDeck(user_id, deck_id) {
+  return dispatch => {
+    // console.log(user_id, deck_id);
+    return fetch("http://localhost:3000/favorites", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id, deck_id })
+    })
+      .then(r => r.json())
+      .then(user => dispatch({ type: "ADD_USER", user }))
+  }
+}
+
+export function unfavoriteDeck(user_id, deck_id) {
+  return dispatch => {
+    // console.log(id);
+    return fetch(`http://localhost:3000/favorites/${user_id}/${deck_id}`, { method: "DELETE" })
+      .then(r => r.json())
+      .then(user => dispatch({ type: "ADD_USER", user }))
+  }
+}

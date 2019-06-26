@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux'
 import user from './userReducer'
 import loggedIn from './loggedInReducer'
+import cards from './cardsReducer'
+import decks from './decksReducer'
 
 
 export default combineReducers({
   user,
-  loggedIn
+  loggedIn,
+  cards,
+  decks
 })

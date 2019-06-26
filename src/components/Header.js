@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Dropdown, Button } from 'react-bootstrap'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { fetchUser, logoutUser } from '../actions/userActions'
+import { Icon } from 'semantic-ui-react'
 import withAuth from '../hocs/withAuth'
 
 class Header extends Component {
@@ -21,31 +19,36 @@ class Header extends Component {
     // console.log("Header props", this.props)
     return (
       <Navbar bg="light">
-        <Navbar.Brand>Alexandria</Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse>
-          <Nav className="justify-content-end" style={{width: "100%"}}>
-            <Nav.Item>
-              <Dropdown>
-                <Dropdown.Toggle style={{alignItems: "center", display: "flex"}} variant="secondary">
-                  {this.props.user.username}
-                  &nbsp;
-                  <img src={this.props.user.image} alt="propic" height="25px" width="25px"/>
-                </Dropdown.Toggle>
+        <Navbar.Brand
+          style={{color: "midnightblue", textShadow: "1px 1px cornflowerblue", fontFamily: "Beleren"}}
+          onClick={() => this.props.history.push("/")}
+        >
+          Alexandria
+        </Navbar.Brand>
 
-                <Dropdown.Menu alignRight>
-                  <Dropdown.Item>Profile</Dropdown.Item>
-                  <Dropdown.Item>My Decks</Dropdown.Item>
-                  <Dropdown.Item>New Deck</Dropdown.Item>
-                  <Dropdown.Divider/>
-                  <Dropdown.Item className="text-center">
-                    <Button variant="danger" onClick={this.logout}>Logout</Button>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Nav.Item>
-          </Nav>
-        </Navbar.Collapse>
+        <Nav className="justify-content-end" style={{width: "100%"}}>
+          <Button className="mx-2" variant="info" onClick={() => this.props.history.push("/new")}>
+            <Icon fitted className="pr-1" name="plus circle" />
+            New Deck
+          </Button>
+
+          <Dropdown>
+            <Dropdown.Toggle style={{alignItems: "center", display: "flex"}} variant="secondary">
+              {this.props.user.username}
+              &nbsp;
+              <img src={this.props.user.image} alt="propic" height="25px" width="25px"/>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu alignRight>
+              <Dropdown.Item>Profile</Dropdown.Item>
+              <Dropdown.Item>My Decks</Dropdown.Item>
+              <Dropdown.Divider/>
+              <Dropdown.Item className="text-center">
+                <Button variant="danger" onClick={this.logout}>Logout</Button>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Nav>
       </Navbar>
     );
   }
