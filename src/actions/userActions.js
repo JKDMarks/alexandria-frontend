@@ -21,16 +21,19 @@ export function loginUser({ username, password }) {
     	body: JSON.stringify({ username, password })
     }).then(r => r.json())
     	.then(data => {
+        console.log(data)
         if (data.user) {
+          localStorage.setItem("token", data.token)
           dispatch({ type: "ADD_USER", user: data.user })
           dispatch({ type: "LOG_IN" })
-          localStorage.setItem("token", data.token)
         }
       })
   }
 }
 
-export const logoutUser = () => ({ type: "LOG_OUT" })
+export const logoutUser = () => {
+  return { type: "LOG_OUT" }
+}
 
 export function signupUser({ username, password, passwordConfirm }) {
   return dispatch => {
@@ -41,10 +44,9 @@ export function signupUser({ username, password, passwordConfirm }) {
     }).then(r => r.json())
       .then(data => {
         if (data.user) {
-          debugger
+          localStorage.setItem("token", data.token)
           dispatch({ type: "ADD_USER", user: data.user })
           dispatch({ type: "LOG_IN" })
-          localStorage.setItem("token", data.token)
         }
       })
   }

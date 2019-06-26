@@ -2,6 +2,11 @@
 
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css");
 
+@font-face {
+  font-family: Beleren;
+  src: '../public/fonts/Beleren.tff';
+}
+
 html, body, #root {
   height: 100%;
 }
