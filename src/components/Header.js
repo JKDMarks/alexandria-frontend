@@ -10,17 +10,16 @@ class Header extends Component {
     this.props.history.push("/login")
   }
 
-  // componentDidMount() {
-  //   this.props.fetchUser()
-  //   // console.log(this.props.location.pathname)
-  // }
-
   render() {
     // console.log("Header props", this.props)
     return (
       <Navbar bg="light">
         <Navbar.Brand
-          style={{color: "midnightblue", textShadow: "1px 1px cornflowerblue", fontFamily: "Beleren"}}
+          style={{
+            color: "midnightblue",
+            textShadow: "1px 1px cornflowerblue",
+            font: "30px Beleren"
+          }}
           onClick={() => this.props.history.push("/")}
         >
           Alexandria
@@ -55,5 +54,4 @@ class Header extends Component {
 
 }
 
-// export default connect(({ user }) => ({ user }), ({ fetchUser, logoutUser }))(withRouter(Header))
 export default withAuth(Header)

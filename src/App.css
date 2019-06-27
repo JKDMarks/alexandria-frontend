@@ -4,8 +4,15 @@
 
 @font-face {
   font-family: 'Beleren';
-  src: url('./fonts/Beleren.tff');
+  src: local('Beleren'),
+    url('/fonts/Beleren/Beleren.ttf') format('truetype'),
+    url('/fonts/Beleren/Beleren.woff') format('woff');
 }
+
+/* @font-face {
+  font-family: 'Lobster_Two';
+
+} */
 
 html, body, #root {
   height: 100%;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 
 import './App.css';
 import Pages from './pages'
-// import { fetchUser } from './actions/userActions'
 import withAuth from './hocs/withAuth'
 
 class App extends Component {
