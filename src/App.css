@@ -26,3 +26,10 @@ nav span.navbar-brand:hover {
   color: mediumslateblue !important;
   cursor: pointer;
 }
+
+.ui.search > .results {
+  overflow-y: auto;
+  max-height: 550px;
+  top:auto !important;
+  bottom: 50px !important;
+}

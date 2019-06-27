@@ -19,15 +19,15 @@ class DeckCard extends Component {
   render() {
     // console.log("DeckCard props", this.props);
     // console.log("DeckCard favInstance()", this.favInstance());
-    const {deck: {id, name, format, image, user, created_at}} = this.props
-    const capitalFormat = format.slice(0,1).toUpperCase() + format.slice(1)
+    const { deck: {id, name, format, image, user, created_at} } = this.props
+    const capitalizeFormat = format.slice(0,1).toUpperCase() + format.slice(1)
 
     return (
       <Card onClick={this.props.handleClick} className="card-with-deck-id" id={id}>
         <Card.Content textAlign="center">
           <Card.Header>{name}</Card.Header>
           <hr className="my-0" width="100%"/>
-          <Card.Meta>{capitalFormat}</Card.Meta>
+          <Card.Meta>{capitalizeFormat}</Card.Meta>
         </Card.Content>
 
         <Image src={image}/>

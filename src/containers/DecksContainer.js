@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { fetchDecks } from '../actions/decksActions'
-import { fetchCards } from '../actions/cardsActions'
 import DeckCardsGroup from '../components/DeckCardsGroup.js'
 
 class DecksContainer extends Component {
@@ -14,6 +13,8 @@ class DecksContainer extends Component {
     }
   }
 
+  twelveNewestDecks = () => this.props.decks.slice(-12).sort(() => -1)
+
   favoriteDecks = () => (
     this.props.decks.filter(deck => (
       this.props.user.favorites.slice(0, 4).find(fav => fav.deck_id === deck.id)
@@ -21,7 +22,6 @@ class DecksContainer extends Component {
   )
 
   componentDidMount() {
-    this.props.fetchCards()
     this.props.fetchDecks()
   }
 
@@ -31,7 +31,7 @@ class DecksContainer extends Component {
       <Fragment>
         <DeckCardsGroup
           header="Newest Decks"
-          decks={this.props.decks.slice(-12).sort(() => -1)}
+          decks={this.twelveNewestDecks()}
           showBigDeck={this.showBigDeck}
         />
         <DeckCardsGroup
@@ -45,4 +45,4 @@ class DecksContainer extends Component {
 
 }
 
-export default connect(({ user, decks, cards }) => ({ user, decks, cards }), ({ fetchDecks, fetchCards }))(DecksContainer)
+export default connect(({ user, decks }) => ({ user, decks }), ({ fetchDecks }))(DecksContainer)

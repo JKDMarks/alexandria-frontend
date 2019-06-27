@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Card, Segment, Header } from 'semantic-ui-react'
 import DeckCard from './DeckCard'
-import BigDeckCard from './BigDeckCard'
 
 class DeckCardsGroup extends Component {
 
