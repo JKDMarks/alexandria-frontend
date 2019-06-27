@@ -33,3 +33,8 @@ nav span.navbar-brand:hover {
   top:auto !important;
   bottom: 50px !important;
 }
+
+.deck-format-dropdown .default.text {
+  color: rgba(255, 0, 0, 0.6) !important;
+  opacity: 0.6 !important;
+}

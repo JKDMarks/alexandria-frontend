@@ -23,8 +23,9 @@ class NewDeckPage extends Component {
   state = {
     name: "",
     image: "",
+    format: "",
     cardsInSelectedFormat: [],
-    newDeckCards: []
+    cardsInDeck: []
   }
 
   componentDidMount() {
@@ -49,11 +50,41 @@ class NewDeckPage extends Component {
       }
     })
 
-    this.setState({ cardsInSelectedFormat: searchFormattedCards })
+    this.setState({
+      format: value,
+      cardsInSelectedFormat: searchFormattedCards,
+      cardsInDeck: []
+    })
+  }
+
+  updateCardsInDeck = cardsInDeck => {
+    this.setState({ cardsInDeck })
   }
 
   createDeck = () => {
-    console.log("create deck");
+    let shouldCreate = true
+
+    for (const card of this.state.cardsInDeck) {
+      if (!card.quantity) {
+        shouldCreate = false
+    		break
+    	}
+    }
+
+    if (!(this.state.name && this.state.image && this.state.format)) {
+      shouldCreate = false
+    }
+
+    if (shouldCreate) {
+      this.props.createDeck({
+        user_id: this.props.userId,
+        name: this.state.name,
+        format: this.state.format,
+        image: this.state.image,
+        cards: this.state.cardsInDeck
+      })
+    }
+    // this.props.history.push("/")
   }
 
   render() {
@@ -77,9 +108,10 @@ class NewDeckPage extends Component {
                 />
 
                 <Form.Input
+                  className="deck-format-dropdown"
                   name="format"
                   label="Deck Format"
-                  placeholder="Format"
+                  placeholder="Select a format to add cards. (Changing formats removes all cards from your deck)"
                   control={Select}
                   options={formatOptions}
                   onChange={this.filterCardsByFormat}
@@ -94,7 +126,11 @@ class NewDeckPage extends Component {
 
                 <hr/>
 
-                <NewDeckCards cards={this.state.cardsInSelectedFormat}/>
+                <NewDeckCards
+                  cards={this.state.cardsInSelectedFormat}
+                  updateCardsInDeck={this.updateCardsInDeck}
+                  cardsInDeck={this.state.cardsInDeck}
+                />
 
                 <Grid>
                   <Grid.Column textAlign="center">

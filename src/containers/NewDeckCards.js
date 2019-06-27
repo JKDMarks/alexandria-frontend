@@ -6,22 +6,13 @@ import NewDeckSearch from '../components/NewDeckSearch'
 
 class NewDeckCards extends Component {
 
-  state = {
-    cardsInDeck: [
-      {"id":4,"title":"Adeliz, the Cinder Wind","description":"{1}{U}{R}","image":"https://img.scryfall.com/cards/art_crop/en/dom/190.jpg?1524791903"},
-      {"id":29,"title":"Arcades, the Strategist","description":"{1}{G}{W}{U}","image":"https://img.scryfall.com/cards/art_crop/en/m19/212.jpg?1531451114"},
-      {"id":464,"title":"Naban, Dean of Iteration","description":"{1}{U}","image":"https://img.scryfall.com/cards/art_crop/en/dom/58.jpg?1524790573"},
-      {id: 31, title: "Archangel Avacyn // Avacyn, the Purifier", description: null, image: undefined}
-    ]
-  }
-
   addCardToDeck = card => {
-    this.setState({ cardsInDeck: [ ...this.state.cardsInDeck, card ] })
+    this.props.updateCardsInDeck([ ...this.props.cardsInDeck, card ])
   }
 
   changeCardQuantity = (e, { value }) => {
     const cardId = parseInt(e.target.closest(".has-card-id").id, 10)
-    const cardsInDeck = this.state.cardsInDeck.map(card => {
+    const cardsInDeck = this.props.cardsInDeck.map(card => {
       if (card.id === cardId) {
         const cardCopy = { ...card }
         cardCopy.quantity = value
@@ -31,19 +22,20 @@ class NewDeckCards extends Component {
       }
     })
 
-    this.setState({ cardsInDeck })
+    this.props.updateCardsInDeck(cardsInDeck)
   }
 
   removeCard = e => {
-    const cardId = e.target.closest(".has-card-id").id
-
+    const cardId = parseInt(e.target.closest(".has-card-id").id, 10)
+    const filterCards = this.props.cardsInDeck.filter(card => card.id !== cardId)
+    this.props.updateCardsInDeck(filterCards)
   }
 
   renderCardsInDeck = () => {
-    return this.state.cardsInDeck.map(card => (
+    return this.props.cardsInDeck.map(card => (
       <Card
         key={card.id} id={card.id}
-        className="has-card-id py-2 px-3"
+        className="has-card-id py-2"
         style={{height: "38px", width: "auto"}}
       >
         <Container>
@@ -77,8 +69,7 @@ class NewDeckCards extends Component {
   }
 
   render() {
-    console.log("NewDeckCards props", this.props);
-    console.log("NewDeckCards state", this.state);
+    // console.log("NewDeckCards props", this.props)
     return (
       <Fragment>
         <p style={{textAlign: "center", font: "15px Beleren"}} className="mb-2">Cards in Deck</p>
