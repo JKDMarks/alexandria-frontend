@@ -25,14 +25,18 @@ class DeckPage extends Component {
     fetch(`http://localhost:3000/decks/${this.props.match.params.id}`)
       .then(r => r.json())
       .then(deck => {
-        const byTypeObj = { creature: [], planeswalker: [], artifact: [], enchantment: [], instant: [], sorcery: [], land: [] }
+        if (deck.id) {
+          const byTypeObj = { creature: [], planeswalker: [], artifact: [], enchantment: [], instant: [], sorcery: [], land: [] }
 
-        for (const card of deck.cards) {
-          const type = card.types[card.types.length - 1].toLowerCase()
-          byTypeObj[type].push(card)
+          for (const card of deck.cards) {
+            const type = card.types[card.types.length - 1].toLowerCase()
+            byTypeObj[type].push(card)
+          }
+
+          this.setState({ deck, byTypeObj: {...this.state.byTypeObj, ...byTypeObj} })
+        } else {
+          this.props.history.push("/")
         }
-
-        this.setState({ deck, byTypeObj: {...this.state.byTypeObj, ...byTypeObj} })
       })
   }
 
