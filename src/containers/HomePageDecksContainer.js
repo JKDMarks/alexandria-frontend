@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import { fetchDecks } from '../actions/decksActions'
 import DeckCardsGroup from '../components/DeckCardsGroup.js'
 
-class DecksContainer extends Component {
+class HomePageDecksContainer extends Component {
 
-  state = { bigDeck: null }
+  // state = { bigDeck: null }
 
-  showBigDeck = e => {
+  goToDeckPage = e => {
     if (!e.target.closest(".fav-btn")) {
-      console.log(e.target.closest(".card-with-deck-id"))
+      const deckId = e.target.closest(".card-with-deck-id").id
+      this.props.history.push(`/decks/${deckId}`)
     }
   }
 
@@ -26,18 +27,18 @@ class DecksContainer extends Component {
   }
 
   render() {
-    console.log("DecksContainers props", this.props)
+    // console.log("HomePageDecksContainers props", this.props)
     return (
       <Fragment>
         <DeckCardsGroup
           header="Newest Decks"
           decks={this.twelveNewestDecks()}
-          showBigDeck={this.showBigDeck}
+          goToDeckPage={this.goToDeckPage}
         />
         <DeckCardsGroup
           header="Favorite Decks"
           decks={this.favoriteDecks()}
-          showBigDeck={this.showBigDeck}
+          goToDeckPage={this.goToDeckPage}
         />
       </Fragment>
     )
@@ -45,4 +46,4 @@ class DecksContainer extends Component {
 
 }
 
-export default connect(({ user, decks }) => ({ user, decks }), ({ fetchDecks }))(DecksContainer)
+export default connect(({ user, decks }) => ({ user, decks }), ({ fetchDecks }))(HomePageDecksContainer)

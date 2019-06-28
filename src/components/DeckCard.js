@@ -23,7 +23,7 @@ class DeckCard extends Component {
     const capitalizeFormat = format.slice(0,1).toUpperCase() + format.slice(1)
 
     return (
-      <Card onClick={this.props.handleClick} className="card-with-deck-id" id={id}>
+      <Card onClick={this.props.goToDeckPage} className="card-with-deck-id" id={id}>
         <Card.Content textAlign="center">
           <Card.Header>{name}</Card.Header>
           <hr className="my-0" width="100%"/>

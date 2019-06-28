@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Header from '../components/Header'
-import DecksContainer from '../containers/DecksContainer'
+import HomePageDecksContainer from '../containers/HomePageDecksContainer'
 // import { Redirect } from 'react-router'
 
 export default class HomePage extends Component {
@@ -9,7 +9,7 @@ export default class HomePage extends Component {
     return (
       <Fragment>
         <Header/>
-        <DecksContainer/>
+        <HomePageDecksContainer history={this.props.history}/>
       </Fragment>
     )
   }

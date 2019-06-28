@@ -71,24 +71,30 @@ class NewDeckPage extends Component {
     	}
     }
 
+    if (!this.state.cardsInDeck.length > 0) {
+      shouldCreate = false
+    }
+
     if (!(this.state.name && this.state.image && this.state.format)) {
       shouldCreate = false
     }
 
     if (shouldCreate) {
-      this.props.createDeck({
-        user_id: this.props.userId,
-        name: this.state.name,
-        format: this.state.format,
-        image: this.state.image,
-        cards: this.state.cardsInDeck
-      })
+      this.props.createDeck(
+        {
+          user_id: this.props.userId,
+          name: this.state.name,
+          format: this.state.format,
+          image: this.state.image,
+          cards: this.state.cardsInDeck
+        },
+        this.props.history
+      )
     }
-    // this.props.history.push("/")
   }
 
   render() {
-    // console.log("NewDeckPage props", this.props);
+    console.log("NewDeckPage props", this.props);
     // console.log("NewDeckPage state", this.state);
     return (
       <Fragment>

@@ -10,12 +10,14 @@ class App extends Component {
     // console.log("App props", this.props)
     return (
       <Switch>
+        <Route exact path="/decks/:id" render={props => <Pages.DeckPage {...props} />}/>
         <Route exact path="/new" render={props => (
-          <Pages.NewDeckPage {...props} {...this.props} userId={this.props.user.id}/>
+          <Pages.NewDeckPage history={this.props.history} userId={this.props.user.id}/>
         )}/>
         <Route exact path="/login" render={props => <Pages.LoginPage {...props} {...this.props}/>}/>
         <Route exact path="/signup" render={props => <Pages.SignupPage {...props} {...this.props}/>}/>
         <Route exact path="/" render={props => <Pages.HomePage {...props} {...this.props}/>}/>
+        <Route render={props => <Pages.NoMatchPage/>}/>
       </Switch>
     )
   }

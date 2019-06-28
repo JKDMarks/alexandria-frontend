@@ -4,10 +4,9 @@ import DeckCard from './DeckCard'
 
 class DeckCardsGroup extends Component {
 
-
   renderDeckCards = () => {
     return this.props.decks.map(deck => {
-      return <DeckCard key={deck.id} deck={deck} handleClick={this.props.showBigDeck}/>
+      return <DeckCard key={deck.id} deck={deck} goToDeckPage={this.props.goToDeckPage}/>
     })
   }
 

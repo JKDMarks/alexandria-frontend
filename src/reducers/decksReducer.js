@@ -3,6 +3,9 @@ export default function (state = [], action) {
     case "ADD_DECKS":
       return [ ...action.decks ]
 
+    case "ADD_DECK":
+      return [ ...state, action.deck ]
+
     default:
       return state
   }

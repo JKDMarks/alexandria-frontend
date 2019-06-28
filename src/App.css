@@ -29,7 +29,7 @@ nav span.navbar-brand:hover {
 
 .ui.search > .results {
   overflow-y: auto;
-  max-height: 550px;
+  max-height: 350px;
   top:auto !important;
   bottom: 50px !important;
 }
@@ -38,3 +38,7 @@ nav span.navbar-brand:hover {
   color: rgba(255, 0, 0, 0.6) !important;
   opacity: 0.6 !important;
 }
+
+/* .ui.fitted.toggle.checkbox {
+
+} */
