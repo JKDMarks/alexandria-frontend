@@ -73,7 +73,7 @@ class NewDeckPage extends Component {
     // 	}
     // }
 
-    if (!(this.state.name && this.state.image && this.state.format && this.state.decklist)) {
+    if (!(this.state.name && this.state.format && this.state.decklist)) {
       shouldCreate = false
     }
 
@@ -83,7 +83,7 @@ class NewDeckPage extends Component {
           user_id: this.props.userId,
           name: this.state.name,
           format: this.state.format,
-          image: this.state.image,
+          // image: this.state.image,
           cards: this.state.cardsInDeck,
           decklist: this.state.decklist
         },

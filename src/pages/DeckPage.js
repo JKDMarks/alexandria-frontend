@@ -33,7 +33,7 @@ class DeckPage extends Component {
             byTypeObj[type].push(card)
           }
 
-          this.setState({ deck, byTypeObj: {...this.state.byTypeObj, ...byTypeObj} })
+          this.setState({ deck, byTypeObj: byTypeObj })
         } else {
           this.props.history.push("/")
         }
@@ -68,15 +68,17 @@ class DeckPage extends Component {
   }
 
   renderNonlandColumn = () => {
-    for (const type in this.state.byTypeObj) {
-      if (type !== "land") {
-        return (
-          <Grid.Column>
-            {this.renderUlOfType(type)}
-          </Grid.Column>
-        )
-      }
-    }
+    return (
+      <Grid.Column>
+        {
+          Object.keys(this.state.byTypeObj).map(type => {
+            if (type !== "land" && this.state.byTypeObj[type].length > 0) {
+              return this.renderUlOfType(type)
+            }
+          })
+        }
+      </Grid.Column>
+    )
   }
 
   renderLandColumn = () => {
@@ -90,7 +92,7 @@ class DeckPage extends Component {
 
   render() {
     // console.log("DeckPage props", this.props);
-    console.log("DeckPage state", this.state);
+    // console.log("DeckPage state", this.state);
     const deck = this.state.deck
 
     return (

@@ -27,7 +27,7 @@ class HomePageDecksContainer extends Component {
   }
 
   render() {
-    // console.log("HomePageDecksContainers props", this.props)
+    console.log("HomePageDecksContainers props", this.props)
     return (
       <Fragment>
         <DeckCardsGroup
