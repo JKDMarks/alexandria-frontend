@@ -14,8 +14,21 @@ export function createDeck(deckObj, history) {
       body: JSON.stringify(deckObj)
     }).then(r => r.json())
       .then(deck => {
-        debugger
         dispatch({ type: "ADD_DECK", deck })
+        history.push(`/decks/${deck.id}`)
+      })
+  }
+}
+
+export function editDeck(deckObj, history) {
+  return dispatch => {
+    return fetch(`http://localhost:3000/decks/${deckObj.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(deckObj)
+    }).then(r => r.json())
+      .then(deck => {
+        dispatch({ type: "UPDATE_DECK", deck })
         history.push(`/decks/${deck.id}`)
       })
   }

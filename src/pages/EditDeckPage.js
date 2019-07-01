@@ -1,28 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 import { Form, Button, Select, Grid } from 'semantic-ui-react'
-// import { Container, Row, Col } from 'react-bootstrap'
 
 import Header from '../components/Header'
 import NewDeckCards from '../containers/NewDeckCards'
 import { createDeck } from '../actions/decksActions'
 import { fetchCards } from '../actions/cardsActions'
+import { beginLoading, endLoading } from '../actions/isLoadingActions'
 
-const formatOptions = [
-  { text: "Standard", value: "standard" },
-  { text: "Modern", value: "modern" },
-  { text: "Legacy", value: "legacy" },
-  { text: "Vintage", value: "vintage" },
-  { text: "Pauper", value: "pauper" },
-  { text: "Commander/EDH", value: "commander" },
-  { text: "Penny Dreadful", value: "penny" }
-]
-
-class NewDeckPage extends Component {
+class EditDeckPage extends Component {
 
   state = {
     name: "",
-    image: "",
     format: "",
     cardsInSelectedFormat: [],
     cardsInDeck: [],
@@ -30,8 +19,22 @@ class NewDeckPage extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCards()
     this.interval = setInterval(this.addAPeriod, 500)
+    fetch(`http://localhost:3000/decks/${this.props.match.params.id}`)
+      .then(r => r.json())
+      .then(deck => {
+        console.log(deck);
+        const cardsInDeck = deck.cards.map(card => ({
+          id: card.id,
+          title: card.name,
+          quantity: deck.deck_cards.find(dc => dc.card_id === card.id).quantity,
+          description: card.mana_cost
+        }))
+        this.setState({
+          name: deck.name,
+          cardsInDeck: cardsInDeck
+        })
+      })
   }
 
   addAPeriod = () => {
@@ -55,8 +58,7 @@ class NewDeckPage extends Component {
       return {
         id: card.id,
         title: card.name,
-        description: card.mana_cost,
-        // image: card.image_uris.art_crop
+        description: card.mana_cost
       }
     })
 
@@ -95,7 +97,6 @@ class NewDeckPage extends Component {
           user_id: this.props.userId,
           name: this.state.name,
           format: this.state.format,
-          // image: this.state.image,
           cards: this.state.cardsInDeck
         },
         this.props.history
@@ -104,8 +105,8 @@ class NewDeckPage extends Component {
   }
 
   render() {
-    // console.log("NewDeckPage props", this.props);
-    console.log("NewDeckPage state", this.state);
+    console.log("EditDeckPage props", this.props);
+    // console.log("EditDeckPage state", this.state);
     return (
       <Fragment>
         <Header/>
@@ -141,23 +142,6 @@ class NewDeckPage extends Component {
                         onChange={this.handleChange}
                       />
 
-                      <Form.Input
-                        className="deck-format-dropdown"
-                        name="format"
-                        label="Deck Format"
-                        placeholder="Select a format to add cards. (Changing formats removes all cards from your deck)"
-                        control={Select}
-                        options={formatOptions}
-                        onChange={this.filterCardsByFormat}
-                      />
-
-                      {null/*<Form.Input
-                        name="image"
-                        label="Deck Image"
-                        value={this.state.image}
-                        onChange={this.handleChange}
-                      />*/}
-
                       <hr/>
 
                       <NewDeckCards
@@ -184,4 +168,7 @@ class NewDeckPage extends Component {
 
 }
 
-export default connect(({ cards, isLoading }) => ({ cards, isLoading }), ({ fetchCards, createDeck }))(NewDeckPage);
+export default connect(
+  ({ cards, isLoading }) => ({ cards, isLoading }),
+  ({ fetchCards, createDeck, beginLoading, endLoading })
+)(EditDeckPage);

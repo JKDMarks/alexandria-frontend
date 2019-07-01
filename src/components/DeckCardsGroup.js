@@ -5,9 +5,11 @@ import DeckCard from './DeckCard'
 class DeckCardsGroup extends Component {
 
   renderDeckCards = () => {
-    return this.props.decks.map(deck => {
-      return <DeckCard key={deck.id} deck={deck} goToDeckPage={this.props.goToDeckPage}/>
-    })
+    if (this.props.decks) {
+      return this.props.decks.map(deck => {
+        return <DeckCard key={deck.id} deck={deck} goToDeckPage={this.props.goToDeckPage}/>
+      })
+    }
   }
 
   render() {

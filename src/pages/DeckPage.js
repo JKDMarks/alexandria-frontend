@@ -43,6 +43,17 @@ class DeckPage extends Component {
       })
   }
 
+  handleEditClick = () => {
+    this.props.history.push(`/decks/${this.state.deck.id}/edit`)
+  }
+
+  handleDeleteClick = () => {
+    fetch(`http://localhost:3000/decks/${this.state.deck.id}`, {
+      method: "DELETE"
+    }).then(r => r.json())
+      .then(data => this.props.history.push("/"))
+  }
+
   showCardImg = imagesObj => {
     this.setState({ cardImg: imagesObj.normal })
   }
@@ -96,24 +107,24 @@ class DeckPage extends Component {
   }
 
   render() {
-    console.log("DeckPage props", this.props);
+    // console.log("DeckPage props", this.props);
     // console.log("DeckPage state", this.state);
 
     return (
       <Fragment>
         <Header/>
         {
-          this.state.deck.id ? (
+          this.state.deck.id && this.props.user ? (
             <Segment className="m-3">
               <h4 style={{fontFamily: "Beleren", textAlign: "center"}}>
                 {this.state.deck.name}
                 {
-                  this.state.deck.user.id === this.props.user.id ? (
+                  this.state.deck.user_id === this.props.user.id ? (
                     <Fragment>
                       &nbsp;
-                      <Button size="mini" color="yellow">Edit</Button>
+                      <Button size="mini" color="yellow" onClick={this.handleEditClick}>Edit</Button>
                       &nbsp;
-                      <Button size="mini" color="red">Delete</Button>
+                      <Button size="mini" color="red" onClick={this.handleDeleteClick}>Delete</Button>
                     </Fragment>
                   ) : (null)
                 }
@@ -138,6 +149,6 @@ class DeckPage extends Component {
 }
 
 export default connect(
-  ({ decks, cards, user }) => ({ decks, cards }),
+  ({ decks, cards, user }) => ({ decks, cards, user }),
   ({ fetchDecks, fetchCards, fetchUser })
 )(DeckPage);

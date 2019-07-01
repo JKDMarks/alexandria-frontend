@@ -50,6 +50,7 @@ class NewDeckCards extends Component {
             <Col xs={3}>
               <Dropdown
                 onChange={this.changeCardQuantity}
+                value={card.quantity}
                 placeholder="Quantity"
                 options={[
                   { key: 1, text: 1, value: 1 },

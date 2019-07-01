@@ -21,7 +21,7 @@ export function loginUser({ username, password }) {
     	body: JSON.stringify({ username, password })
     }).then(r => r.json())
     	.then(data => {
-        console.log(data)
+        console.log("Login data", data)
         if (data.user) {
           localStorage.setItem("token", data.token)
           dispatch({ type: "ADD_USER", user: data.user })
@@ -43,6 +43,7 @@ export function signupUser({ username, password, passwordConfirm }) {
       body: JSON.stringify({ username, password, passwordConfirm })
     }).then(r => r.json())
       .then(data => {
+        console.log("Signup data", data);
         if (data.user) {
           localStorage.setItem("token", data.token)
           dispatch({ type: "ADD_USER", user: data.user })

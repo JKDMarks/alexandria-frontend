@@ -5,8 +5,6 @@ import DeckCardsGroup from '../components/DeckCardsGroup.js'
 
 class HomePageDecksContainer extends Component {
 
-  // state = { bigDeck: null }
-
   goToDeckPage = e => {
     if (!e.target.closest(".fav-btn")) {
       const deckId = e.target.closest(".card-with-deck-id").id
@@ -14,20 +12,22 @@ class HomePageDecksContainer extends Component {
     }
   }
 
-  twelveNewestDecks = () => this.props.decks.slice(-12).sort(() => -1)
+  twelveNewestDecks = () => {
+    return this.props.decks.slice(-12).sort(() => -1)
+  }
 
-  favoriteDecks = () => (
-    this.props.decks.filter(deck => (
+  favoriteDecks = () => {
+    return this.props.decks.filter(deck => (
       this.props.user.favorites.slice(0, 4).find(fav => fav.deck_id === deck.id)
     ))
-  )
+  }
 
   componentDidMount() {
     this.props.fetchDecks()
   }
 
   render() {
-    console.log("HomePageDecksContainers props", this.props)
+    // console.log("HomePageDecksContainers props", this.props)
     return (
       <Fragment>
         <DeckCardsGroup
