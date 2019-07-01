@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { Form, Button, Select, Grid } from 'semantic-ui-react'
+import { Form, Button, Select, Grid, Checkbox } from 'semantic-ui-react'
 // import { Container, Row, Col } from 'react-bootstrap'
 
 import Header from '../components/Header'
@@ -25,35 +25,37 @@ class NewDeckPage extends Component {
     image: "",
     format: "",
     cardsInSelectedFormat: [],
-    cardsInDeck: []
+    cardsInDeck: [],
+    isTextArea: true,
+    decklist: ""
   }
 
   componentDidMount() {
-    this.props.fetchCards()
+    // this.props.fetchCards()
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  handleChange = (e, { value }) => {
+    this.setState({ [e.target.name]: value })
   }
 
   filterCardsByFormat = (e, { value }) => {
-    const filteredCards = this.props.cards.filter(card => (
-      card.legalities[value] === "legal"
-    ))
-
-    const searchFormattedCards = filteredCards.map(card => {
-      return {
-        id: card.id,
-        title: card.name,
-        description: card.mana_cost,
-        image: card.image_uris.art_crop
-      }
-    })
+    // const filteredCards = this.props.cards.filter(card => (
+    //   card.legalities[value] === "legal"
+    // ))
+    //
+    // const searchFormattedCards = filteredCards.map(card => {
+    //   return {
+    //     id: card.id,
+    //     title: card.name,
+    //     description: card.mana_cost,
+    //     image: card.image_uris.art_crop
+    //   }
+    // })
 
     this.setState({
       format: value,
-      cardsInSelectedFormat: searchFormattedCards,
-      cardsInDeck: []
+      // cardsInSelectedFormat: searchFormattedCards,
+      // cardsInDeck: []
     })
   }
 
@@ -64,18 +66,14 @@ class NewDeckPage extends Component {
   createDeck = () => {
     let shouldCreate = true
 
-    for (const card of this.state.cardsInDeck) {
-      if (!card.quantity) {
-        shouldCreate = false
-    		break
-    	}
-    }
+    // for (const card of this.state.cardsInDeck) {
+    //   if (!card.quantity) {
+    //     shouldCreate = false
+    // 		break
+    // 	}
+    // }
 
-    if (!this.state.cardsInDeck.length > 0) {
-      shouldCreate = false
-    }
-
-    if (!(this.state.name && this.state.image && this.state.format)) {
+    if (!(this.state.name && this.state.image && this.state.format && this.state.decklist)) {
       shouldCreate = false
     }
 
@@ -86,7 +84,8 @@ class NewDeckPage extends Component {
           name: this.state.name,
           format: this.state.format,
           image: this.state.image,
-          cards: this.state.cardsInDeck
+          cards: this.state.cardsInDeck,
+          decklist: this.state.decklist
         },
         this.props.history
       )
@@ -94,8 +93,9 @@ class NewDeckPage extends Component {
   }
 
   render() {
-    console.log("NewDeckPage props", this.props);
-    // console.log("NewDeckPage state", this.state);
+    // console.log("NewDeckPage props", this.props);
+    console.log("NewDeckPage state", this.state);
+    // console.log("NewDeckPage state.decklist", this.state.decklist);
     return (
       <Fragment>
         <Header/>
@@ -113,12 +113,9 @@ class NewDeckPage extends Component {
                   onChange={this.handleChange}
                 />
 
-                <Form.Input
-                  className="deck-format-dropdown"
+                <Form.Select
                   name="format"
                   label="Deck Format"
-                  placeholder="Select a format to add cards. (Changing formats removes all cards from your deck)"
-                  control={Select}
                   options={formatOptions}
                   onChange={this.filterCardsByFormat}
                 />
@@ -132,11 +129,25 @@ class NewDeckPage extends Component {
 
                 <hr/>
 
-                <NewDeckCards
-                  cards={this.state.cardsInSelectedFormat}
-                  updateCardsInDeck={this.updateCardsInDeck}
-                  cardsInDeck={this.state.cardsInDeck}
-                />
+                {
+                  this.state.isTextArea ? (
+                    <Fragment>
+                      <p style={{font: "16px Beleren", textAlign: "center"}}>Decklist</p>
+                      <Form.TextArea
+                        name="decklist"
+                        placeholder="Decklist, one card per line"
+                        value={this.state.decklist}
+                        onChange={this.handleChange}
+                      />
+                    </Fragment>
+                  ) : (
+                    <NewDeckCards
+                      cards={this.state.cardsInSelectedFormat}
+                      updateCardsInDeck={this.updateCardsInDeck}
+                      cardsInDeck={this.state.cardsInDeck}
+                    />
+                  )
+                }
 
                 <Grid>
                   <Grid.Column textAlign="center">
