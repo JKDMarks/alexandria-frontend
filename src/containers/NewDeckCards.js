@@ -7,7 +7,10 @@ import NewDeckSearch from '../components/NewDeckSearch'
 class NewDeckCards extends Component {
 
   addCardToDeck = card => {
-    this.props.updateCardsInDeck([ ...this.props.cardsInDeck, card ])
+    const findCard = this.props.cardsInDeck.find(cardInDeck => cardInDeck.id === card.id)
+    if (!findCard) {
+      this.props.updateCardsInDeck([ ...this.props.cardsInDeck, card ])
+    }
   }
 
   changeCardQuantity = (e, { value }) => {

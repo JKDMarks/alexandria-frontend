@@ -14,6 +14,7 @@ export function createDeck(deckObj, history) {
       body: JSON.stringify(deckObj)
     }).then(r => r.json())
       .then(deck => {
+        debugger
         dispatch({ type: "ADD_DECK", deck })
         history.push(`/decks/${deck.id}`)
       })

@@ -25,11 +25,21 @@ class NewDeckPage extends Component {
     image: "",
     format: "",
     cardsInSelectedFormat: [],
-    cardsInDeck: []
+    cardsInDeck: [],
+    loadingPeriods: ""
   }
 
   componentDidMount() {
     this.props.fetchCards()
+    this.interval = setInterval(this.addAPeriod, 500)
+  }
+
+  addAPeriod = () => {
+    if (this.props.isLoading) {
+      this.setState({ loadingPeriods: this.state.loadingPeriods + '.' })
+    } else {
+      clearInterval(this.interval)
+    }
   }
 
   handleChange = e => {
@@ -94,8 +104,8 @@ class NewDeckPage extends Component {
   }
 
   render() {
-    console.log("NewDeckPage props", this.props);
-    // console.log("NewDeckPage state", this.state);
+    // console.log("NewDeckPage props", this.props);
+    console.log("NewDeckPage state", this.state);
     return (
       <Fragment>
         <Header/>
@@ -103,47 +113,68 @@ class NewDeckPage extends Component {
         <div className="row">
           <div className="col-10 offset-1 mt-5">
             <div className="card p-2">
-              <span style={{textAlign: "center", font: "20px Beleren"}} className="mb-2">New Deck</span>
 
-              <Form onSubmit={this.createDeck} style={{width: "100%"}}>
-                <Form.Input
-                  name="name"
-                  label="Deck Name"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                />
+              {
+                this.props.isLoading ? (
+                  <Fragment>
+                    <p style={{textAlign: "center", font: "20px Beleren"}}>
+                      Loading all cards{this.state.loadingPeriods}
+                    </p>
+                    <img
+                      style={{margin: "0 auto"}}
+                      src="/images/WUBRG.png"
+                      className="spin"
+                      height="100px"
+                      width="100px"
+                      alt="spinning mana pentagon"
+                    />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <span style={{textAlign: "center", font: "20px Beleren"}} className="mb-2">New Deck</span>
 
-                <Form.Input
-                  className="deck-format-dropdown"
-                  name="format"
-                  label="Deck Format"
-                  placeholder="Select a format to add cards. (Changing formats removes all cards from your deck)"
-                  control={Select}
-                  options={formatOptions}
-                  onChange={this.filterCardsByFormat}
-                />
+                    <Form onSubmit={this.createDeck} style={{width: "100%"}}>
+                      <Form.Input
+                        name="name"
+                        label="Deck Name"
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                      />
 
-                <Form.Input
-                  name="image"
-                  label="Deck Image"
-                  value={this.state.image}
-                  onChange={this.handleChange}
-                />
+                      <Form.Input
+                        className="deck-format-dropdown"
+                        name="format"
+                        label="Deck Format"
+                        placeholder="Select a format to add cards. (Changing formats removes all cards from your deck)"
+                        control={Select}
+                        options={formatOptions}
+                        onChange={this.filterCardsByFormat}
+                      />
 
-                <hr/>
+                      <Form.Input
+                        name="image"
+                        label="Deck Image"
+                        value={this.state.image}
+                        onChange={this.handleChange}
+                      />
 
-                <NewDeckCards
-                  cards={this.state.cardsInSelectedFormat}
-                  updateCardsInDeck={this.updateCardsInDeck}
-                  cardsInDeck={this.state.cardsInDeck}
-                />
+                      <hr/>
 
-                <Grid>
-                  <Grid.Column textAlign="center">
-                    <Button className="mt-3" primary type="submit">Create Deck</Button>
-                  </Grid.Column>
-                </Grid>
-              </Form>
+                      <NewDeckCards
+                        cards={this.state.cardsInSelectedFormat}
+                        updateCardsInDeck={this.updateCardsInDeck}
+                        cardsInDeck={this.state.cardsInDeck}
+                      />
+
+                      <Grid>
+                        <Grid.Column textAlign="center">
+                          <Button className="mt-3" primary type="submit">Create Deck</Button>
+                        </Grid.Column>
+                      </Grid>
+                    </Form>
+                  </Fragment>
+                )
+              }
             </div>
           </div>
         </div>
@@ -153,4 +184,4 @@ class NewDeckPage extends Component {
 
 }
 
-export default connect(({ cards }) => ({ cards }), ({ fetchCards, createDeck }))(NewDeckPage);
+export default connect(({ cards, isLoading }) => ({ cards, isLoading }), ({ fetchCards, createDeck }))(NewDeckPage);

@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { Grid, Segment } from 'semantic-ui-react'
+import { Grid, Segment, Button } from 'semantic-ui-react'
 import { fetchDecks } from '../actions/decksActions'
 import { fetchCards } from '../actions/cardsActions'
+import { fetchUser } from '../actions/userActions'
 import Header from '../components/Header'
+import moment from 'moment'
 
 class DeckPage extends Component {
 
@@ -22,6 +24,7 @@ class DeckPage extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchUser()
     fetch(`http://localhost:3000/decks/${this.props.match.params.id}`)
       .then(r => r.json())
       .then(deck => {
@@ -93,7 +96,7 @@ class DeckPage extends Component {
   }
 
   render() {
-    // console.log("DeckPage props", this.props);
+    console.log("DeckPage props", this.props);
     // console.log("DeckPage state", this.state);
 
     return (
@@ -102,13 +105,29 @@ class DeckPage extends Component {
         {
           this.state.deck.id ? (
             <Segment className="m-3">
-              <h4 style={{fontFamily: "Beleren", textAlign: "center"}}>{this.state.deck.name}</h4>
+              <h4 style={{fontFamily: "Beleren", textAlign: "center"}}>
+                {this.state.deck.name}
+                {
+                  this.state.deck.user.id === this.props.user.id ? (
+                    <Fragment>
+                      &nbsp;
+                      <Button size="mini" color="yellow">Edit</Button>
+                      &nbsp;
+                      <Button size="mini" color="red">Delete</Button>
+                    </Fragment>
+                  ) : (null)
+                }
+              </h4>
 
               <Grid textAlign="left" columns={2}>
                 { this.renderNonlandColumn() }
 
                 { this.renderLandColumn() }
               </Grid>
+
+              <p style={{fontSize: "10px", opacity: "0.75", color: "gray", textAlign: "center"}}>
+                Created by {this.state.deck.user.username} on {moment(this.state.deck.created_at).format('MMM D YYYY, h:mm a')}
+              </p>
             </Segment>
           ) : null
         }
@@ -118,4 +137,7 @@ class DeckPage extends Component {
 
 }
 
-export default connect(({ decks, cards }) => ({ decks, cards }), ({ fetchDecks, fetchCards }))(DeckPage);
+export default connect(
+  ({ decks, cards, user }) => ({ decks, cards }),
+  ({ fetchDecks, fetchCards, fetchUser })
+)(DeckPage);
