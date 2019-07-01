@@ -49,14 +49,14 @@ class DeckPage extends Component {
     const typeLine = type.slice(0, 1).toUpperCase() + type.slice(1) + 's'
 
     return (
-      <Fragment>
+      <Fragment key={type}>
         <h5>{typeLine}</h5>
         <ul style={{paddingLeft: "20px"}}>
           {
             this.state.byTypeObj[type].map(card => {
               const deck_card = deck.deck_cards.find(dc => dc.card_id === card.id)
               return (
-                <li key={card.id} onMouseOver={() => this.showCardImg(card.image_uris)}>
+                <li key={card.id} className="card-li" onMouseOver={() => this.showCardImg(card.image_uris)}>
                   {deck_card.quantity} {card.name}
                 </li>
               )
@@ -74,6 +74,8 @@ class DeckPage extends Component {
           Object.keys(this.state.byTypeObj).map(type => {
             if (type !== "land" && this.state.byTypeObj[type].length > 0) {
               return this.renderUlOfType(type)
+            } else {
+              return null
             }
           })
         }
@@ -85,7 +87,7 @@ class DeckPage extends Component {
     return (
       <Grid.Column>
         { this.renderUlOfType("land") }
-        <img alt="card image" src={this.state.cardImg} style={{width: "100%"}}/>
+        <img alt="card art" src={this.state.cardImg} style={{width: "100%"}}/>
       </Grid.Column>
     )
   }
@@ -93,7 +95,6 @@ class DeckPage extends Component {
   render() {
     // console.log("DeckPage props", this.props);
     // console.log("DeckPage state", this.state);
-    const deck = this.state.deck
 
     return (
       <Fragment>
