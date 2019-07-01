@@ -17,9 +17,13 @@ class HomePageDecksContainer extends Component {
   }
 
   favoriteDecks = () => {
-    return this.props.decks.filter(deck => (
-      this.props.user.favorites.slice(0, 4).find(fav => fav.deck_id === deck.id)
-    ))
+    return this.props.decks.filter(deck => {
+      if (Array.isArray(this.props.user.favorites)) {
+        return this.props.user.favorites.slice(0, 4).find(fav => fav.deck_id === deck.id)
+      } else {
+        return []
+      }
+    })
   }
 
   componentDidMount() {

@@ -15,10 +15,12 @@ class EditDeckPage extends Component {
     format: "",
     cardsInSelectedFormat: [],
     cardsInDeck: [],
-    loadingPeriods: ""
+    loadingPeriods: "",
+    deck: {}
   }
 
   componentDidMount() {
+    this.props.fetchCards()
     this.interval = setInterval(this.addAPeriod, 500)
     fetch(`http://localhost:3000/decks/${this.props.match.params.id}`)
       .then(r => r.json())
@@ -31,10 +33,23 @@ class EditDeckPage extends Component {
           description: card.mana_cost
         }))
         this.setState({
+          deck,
           name: deck.name,
           cardsInDeck: cardsInDeck
         })
       })
+  }
+
+  componentDidUpdate() {
+    if (this.state.cardsInSelectedFormat.length == 0 && this.props.cards.length > 0 && this.state.deck.format) {
+      this.filterCardsByFormat(this.state.deck.format)
+    }
+
+    if (this.props.user.id && this.state.deck.user_id) {
+      if (parseInt(this.props.user.id, 10) !== parseInt(this.state.deck.user_id, 10)) {
+        this.props.history.push("/")
+      }
+    }
   }
 
   addAPeriod = () => {
@@ -49,10 +64,10 @@ class EditDeckPage extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  filterCardsByFormat = (e, { value }) => {
-    const filteredCards = this.props.cards.filter(card => (
-      card.legalities[value] === "legal"
-    ))
+  filterCardsByFormat = (format) => {
+    const filteredCards = this.props.cards.filter(card => {
+      return card.legalities[format] === "legal"
+    })
 
     const searchFormattedCards = filteredCards.map(card => {
       return {
@@ -63,9 +78,8 @@ class EditDeckPage extends Component {
     })
 
     this.setState({
-      format: value,
-      cardsInSelectedFormat: searchFormattedCards,
-      cardsInDeck: []
+      format: format,
+      cardsInSelectedFormat: searchFormattedCards
     })
   }
 
@@ -152,7 +166,7 @@ class EditDeckPage extends Component {
 
                       <Grid>
                         <Grid.Column textAlign="center">
-                          <Button className="mt-3" primary type="submit">Create Deck</Button>
+                          <Button className="mt-3" primary type="submit">Update Deck</Button>
                         </Grid.Column>
                       </Grid>
                     </Form>

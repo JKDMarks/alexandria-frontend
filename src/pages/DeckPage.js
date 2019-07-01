@@ -48,10 +48,14 @@ class DeckPage extends Component {
   }
 
   handleDeleteClick = () => {
-    fetch(`http://localhost:3000/decks/${this.state.deck.id}`, {
-      method: "DELETE"
-    }).then(r => r.json())
-      .then(data => this.props.history.push("/"))
+    const confirmDelete = window.confirm("Are you sure you want to delete this deck?")
+
+    if (confirmDelete) {
+      fetch(`http://localhost:3000/decks/${this.state.deck.id}`, {
+        method: "DELETE"
+      }).then(r => r.json())
+        .then(data => this.props.history.push("/"))
+    }
   }
 
   showCardImg = imagesObj => {

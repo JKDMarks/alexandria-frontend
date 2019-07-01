@@ -14,7 +14,13 @@ class DeckCard extends Component {
     }
   }
 
-  favInstance = () => this.props.user.favorites.find(fav => fav.deck_id === this.props.deck.id)
+  favInstance = () => {
+    if (this.props.user.favorites) {
+      return this.props.user.favorites.find(fav => fav.deck_id === this.props.deck.id)
+    } else {
+      return false
+    }
+  }
 
   render() {
     // console.log("DeckCard props", this.props);

@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <Switch>
         <Route exact path="/decks/:id" render={props => <Pages.DeckPage {...props} />}/>
-        <Route exact path="/decks/:id/edit" render={props => <Pages.EditDeckPage {...props} />}/>
+        <Route exact path="/decks/:id/edit" render={props => <Pages.EditDeckPage {...props} user={this.props.user} />}/>
         <Route exact path="/new" render={props => (
           <Pages.NewDeckPage history={this.props.history} userId={this.props.user.id}/>
         )}/>
