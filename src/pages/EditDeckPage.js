@@ -4,7 +4,7 @@ import { Form, Button, Select, Grid } from 'semantic-ui-react'
 
 import Header from '../components/Header'
 import NewDeckCards from '../containers/NewDeckCards'
-import { createDeck } from '../actions/decksActions'
+import { updateDeck } from '../actions/decksActions'
 import { fetchCards } from '../actions/cardsActions'
 import { beginLoading, endLoading } from '../actions/isLoadingActions'
 
@@ -16,7 +16,8 @@ class EditDeckPage extends Component {
     cardsInSelectedFormat: [],
     cardsInDeck: [],
     loadingPeriods: "",
-    deck: {}
+    deck: {},
+    deckImage: 0
   }
 
   componentDidMount() {
@@ -41,7 +42,7 @@ class EditDeckPage extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.cardsInSelectedFormat.length == 0 && this.props.cards.length > 0 && this.state.deck.format) {
+    if (this.state.cardsInSelectedFormat.length === 0 && this.props.cards.length > 0 && this.state.deck.format) {
       this.filterCardsByFormat(this.state.deck.format)
     }
 
@@ -83,35 +84,35 @@ class EditDeckPage extends Component {
     })
   }
 
-  updateCardsInDeck = cardsInDeck => {
-    this.setState({ cardsInDeck })
-  }
+  setDeckImage = (e, { value }) => this.setState({ deckImage: value })
 
-  createDeck = () => {
-    let shouldCreate = true
+  updateCardsInDeck = cardsInDeck => this.setState({ cardsInDeck })
+
+  updateDeck = () => {
+    let shouldUpdate = true
 
     for (const card of this.state.cardsInDeck) {
       if (!card.quantity) {
-        shouldCreate = false
+        shouldUpdate = false
     		break
     	}
     }
 
     if (!this.state.cardsInDeck.length > 0) {
-      shouldCreate = false
+      shouldUpdate = false
     }
 
-    if (!(this.state.name && this.state.format)) {
-      shouldCreate = false
+    if (!(this.state.name && this.state.format && this.state.deckImage !== 0)) {
+      shouldUpdate = false
     }
 
-    if (shouldCreate) {
-      this.props.createDeck(
+    if (shouldUpdate) {
+      this.props.updateDeck(
         {
-          user_id: this.props.userId,
+          id: this.state.deck.id,
           name: this.state.name,
-          format: this.state.format,
-          cards: this.state.cardsInDeck
+          cards: this.state.cardsInDeck,
+          image: this.state.deckImage
         },
         this.props.history
       )
@@ -120,7 +121,7 @@ class EditDeckPage extends Component {
 
   render() {
     console.log("EditDeckPage props", this.props);
-    // console.log("EditDeckPage state", this.state);
+    console.log("EditDeckPage state", this.state);
     return (
       <Fragment>
         <Header/>
@@ -148,7 +149,7 @@ class EditDeckPage extends Component {
                   <Fragment>
                     <span style={{textAlign: "center", font: "20px Beleren"}} className="mb-2">New Deck</span>
 
-                    <Form onSubmit={this.createDeck} style={{width: "100%"}}>
+                    <Form onSubmit={this.updateDeck} style={{width: "100%"}}>
                       <Form.Input
                         name="name"
                         label="Deck Name"
@@ -162,6 +163,8 @@ class EditDeckPage extends Component {
                         cards={this.state.cardsInSelectedFormat}
                         updateCardsInDeck={this.updateCardsInDeck}
                         cardsInDeck={this.state.cardsInDeck}
+                        deckImage={this.state.deckImage}
+                        setDeckImage={this.setDeckImage}
                       />
 
                       <Grid>
@@ -184,5 +187,5 @@ class EditDeckPage extends Component {
 
 export default connect(
   ({ cards, isLoading }) => ({ cards, isLoading }),
-  ({ fetchCards, createDeck, beginLoading, endLoading })
+  ({ fetchCards, updateDeck, beginLoading, endLoading })
 )(EditDeckPage);

@@ -12,7 +12,7 @@ class NewDeckSearch extends Component {
   }
 
   handleResultSelect = (e, { result }) => {
-    this.props.addCardToDeck(result)
+    this.props.handleSearchResult(result)
     this.setState({ value: "" })
   }
 
@@ -33,6 +33,7 @@ class NewDeckSearch extends Component {
   }
 
   render() {
+    // console.log("NewDeckSearch props", this.props);
     return (
       <Search
         input={{fluid: true}}

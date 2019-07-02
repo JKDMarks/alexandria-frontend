@@ -36,7 +36,7 @@ class DeckPage extends Component {
             byTypeObj[type].push(card)
           }
 
-          this.setState({ deck, byTypeObj: byTypeObj })
+          this.setState({ deck, byTypeObj: byTypeObj, cardImg: deck.image })
         } else {
           this.props.history.push("/")
         }
@@ -112,7 +112,7 @@ class DeckPage extends Component {
 
   render() {
     // console.log("DeckPage props", this.props);
-    // console.log("DeckPage state", this.state);
+    console.log("DeckPage state", this.state);
 
     return (
       <Fragment>

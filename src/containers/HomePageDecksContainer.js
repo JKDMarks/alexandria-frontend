@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { fetchDecks } from '../actions/decksActions'
 import DeckCardsGroup from '../components/DeckCardsGroup.js'
+
 
 class HomePageDecksContainer extends Component {
 
@@ -39,6 +41,7 @@ class HomePageDecksContainer extends Component {
           decks={this.twelveNewestDecks()}
           goToDeckPage={this.goToDeckPage}
         />
+
         <DeckCardsGroup
           header="Favorite Decks"
           decks={this.favoriteDecks()}

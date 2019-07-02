@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Container, Row, Col, Button } from 'react-bootstrap'
-import { Card, Dropdown, Icon } from 'semantic-ui-react'
+import { Card, Dropdown, Icon, Radio } from 'semantic-ui-react'
 
 import NewDeckSearch from '../components/NewDeckSearch'
 
@@ -36,40 +36,50 @@ class NewDeckCards extends Component {
 
   renderCardsInDeck = () => {
     return this.props.cardsInDeck.map(card => (
-      <Card
-        key={card.id} id={card.id}
-        className="has-card-id py-2"
-        style={{height: "38px", width: "auto"}}
-      >
-        <Container>
-          <Row>
-            <Col xs={8} style={{height: "24px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
-              {card.title}
-            </Col>
+        <Card
+          key={card.id} id={card.id}
+          className="has-card-id py-2"
+          style={{height: "38px", width: "auto"}}
+        >
+          <Container>
+            <Row>
+              <Col xs={7} style={{height: "24px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
+                {card.title}
+              </Col>
 
-            <Col xs={3}>
-              <Dropdown
-                onChange={this.changeCardQuantity}
-                value={card.quantity}
-                placeholder="Quantity"
-                options={[
-                  { key: 1, text: 1, value: 1 },
-                  { key: 2, text: 2, value: 2 },
-                  { key: 3, text: 3, value: 3 },
-                  { key: 4, text: 4, value: 4 },
-                ]}
-              />
-            </Col>
+              <Col xs={3}>
+                <Dropdown
+                  onChange={this.changeCardQuantity}
+                  value={card.quantity}
+                  placeholder="Quantity"
+                  options={[
+                    { key: 1, text: 1, value: 1 },
+                    { key: 2, text: 2, value: 2 },
+                    { key: 3, text: 3, value: 3 },
+                    { key: 4, text: 4, value: 4 },
+                  ]}
+                />
+              </Col>
 
-            <Col xs={1} className="p-0" style={{marginTop: "-2px"}}>
-              <Button onClick={this.removeCard} variant="danger" size="sm">
-                <Icon name="x" className="ml-1"/>
-              </Button>
-            </Col>
-          </Row>
-        </Container>
-      </Card>
-    ))
+              <Col xs={1} className="pl-1">
+                <Radio
+                  name="deckImage"
+                  value={card.id}
+                  checked={this.props.deckImage === card.id}
+                  onChange={this.props.setDeckImage}
+                />
+              </Col>
+
+              <Col xs={1} className="p-0" style={{marginTop: "-2px"}}>
+                <Button onClick={this.removeCard} variant="danger" size="sm">
+                  <Icon name="x" className="ml-1"/>
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        </Card>
+      )
+    )
   }
 
   render() {
@@ -80,7 +90,15 @@ class NewDeckCards extends Component {
 
         { this.renderCardsInDeck() }
 
-        <NewDeckSearch cards={this.props.cards} addCardToDeck={this.addCardToDeck}/>
+        <NewDeckSearch cards={this.props.cards} handleSearchResult={this.addCardToDeck}/>
+
+        {
+          this.props.cardsInDeck.length > 0 ? (
+            <p style={{textAlign: "center", color: "grey", opacity: 0.7, fontSize: "10px"}}>
+              (Between Quantity and Delete, select that card to have it as the cover display image for this deck.)
+            </p>
+          ) : (null)
+        }
       </Fragment>
     )
   }

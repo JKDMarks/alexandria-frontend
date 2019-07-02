@@ -22,7 +22,7 @@ class NewDeckPage extends Component {
 
   state = {
     name: "",
-    image: "",
+    deckImage: 0,
     format: "",
     cardsInSelectedFormat: [],
     cardsInDeck: [],
@@ -42,9 +42,11 @@ class NewDeckPage extends Component {
     }
   }
 
-  handleChange = e => {
+  handleChange = (e, { value }) => {
     this.setState({ [e.target.name]: e.target.value })
   }
+
+  setDeckImage = (e, { value }) => this.setState({ deckImage: value })
 
   filterCardsByFormat = (e, { value }) => {
     const filteredCards = this.props.cards.filter(card => (
@@ -55,8 +57,7 @@ class NewDeckPage extends Component {
       return {
         id: card.id,
         title: card.name,
-        description: card.mana_cost,
-        // image: card.image_uris.art_crop
+        description: card.mana_cost
       }
     })
 
@@ -85,7 +86,7 @@ class NewDeckPage extends Component {
       shouldCreate = false
     }
 
-    if (!(this.state.name && this.state.format)) {
+    if (!(this.state.name && this.state.format && this.state.deckImage !== 0)) {
       shouldCreate = false
     }
 
@@ -95,7 +96,7 @@ class NewDeckPage extends Component {
           user_id: this.props.userId,
           name: this.state.name,
           format: this.state.format,
-          // image: this.state.image,
+          image: this.state.deckImage,
           cards: this.state.cardsInDeck
         },
         this.props.history
@@ -105,7 +106,7 @@ class NewDeckPage extends Component {
 
   render() {
     // console.log("NewDeckPage props", this.props);
-    console.log("NewDeckPage state", this.state);
+    // console.log("NewDeckPage state", this.state);
     return (
       <Fragment>
         <Header/>
@@ -164,6 +165,8 @@ class NewDeckPage extends Component {
                         cards={this.state.cardsInSelectedFormat}
                         updateCardsInDeck={this.updateCardsInDeck}
                         cardsInDeck={this.state.cardsInDeck}
+                        deckImage={this.state.deckImage}
+                        setDeckImage={this.setDeckImage}
                       />
 
                       <Grid>
