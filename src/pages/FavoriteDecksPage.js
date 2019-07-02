@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 import Header from '../components/Header'
 import DeckCardsGroup from '../components/DeckCardsGroup'
 import { fetchDecks } from '../actions/decksActions'
+import { fetchUser } from '../actions/userActions'
 
 class AllDecksPage extends Component {
 
   componentDidMount() {
+    this.props.fetchUser()
     this.props.fetchDecks()
   }
 
@@ -18,13 +20,23 @@ class AllDecksPage extends Component {
   }
 
   render() {
+    console.log("FavoriteDecksPage props", this.props);
+
+    let favoriteDecks = []
+
+    if (this.props.user.id && this.props.decks[0]) {
+      favoriteDecks =  this.props.decks.filter(deck => (
+        this.props.user.favorites.find(fav => fav.deck_id === deck.id)
+      ))
+    }
+
     return (
       <Fragment>
         <Header/>
 
         <DeckCardsGroup
-          header="All Decks"
-          decks={this.props.decks}
+          header="Favorite Decks"
+          decks={favoriteDecks}
           goToDeckPage={this.goToDeckPage}
           link={"/"}
           linkText={"Go Home =>"}
@@ -36,6 +48,6 @@ class AllDecksPage extends Component {
 }
 
 export default connect(
-  ({ decks }) => ({ decks }),
-  ({ fetchDecks })
+  ({ user, decks }) => ({ user, decks }),
+  ({ fetchUser, fetchDecks })
 )(AllDecksPage)
