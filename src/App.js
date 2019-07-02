@@ -17,6 +17,7 @@ class App extends Component {
         <Route exact path="/new" render={props => (
           <Pages.NewDeckPage history={this.props.history} userId={this.props.user.id}/>
         )}/>
+        <Route exact path="/users/:id" render={props => <Pages.UserPage {...props} user={this.props.user}/>}/>
         <Route exact path="/login" render={props => <Pages.LoginPage {...props} {...this.props}/>}/>
         <Route exact path="/signup" render={props => <Pages.SignupPage {...props} {...this.props}/>}/>
         <Route exact path="/" render={props => <Pages.HomePage {...props} {...this.props}/>}/>

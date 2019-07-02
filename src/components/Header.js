@@ -39,7 +39,7 @@ class Header extends Component {
             </Dropdown.Toggle>
 
             <Dropdown.Menu alignRight>
-              <Dropdown.Item>Profile</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.props.history.push(`/users/${this.props.user.id}`)}>Profile</Dropdown.Item>
               <Dropdown.Item>My Decks</Dropdown.Item>
               <Dropdown.Divider/>
               <Dropdown.Item className="text-center">
