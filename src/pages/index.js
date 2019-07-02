@@ -7,6 +7,7 @@ import NoMatchPage from './NoMatchPage'
 import EditDeckPage from './EditDeckPage'
 import AllDecksPage from './AllDecksPage'
 import FavoriteDecksPage from './FavoriteDecksPage'
+import UserPage from './UserPage'
 
 export default {
   HomePage,
@@ -17,5 +18,6 @@ export default {
   EditDeckPage,
   NoMatchPage,
   AllDecksPage,
-  FavoriteDecksPage
+  FavoriteDecksPage,
+  UserPage
 }

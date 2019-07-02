@@ -73,11 +73,15 @@ class DeckPage extends Component {
           {
             this.state.byTypeObj[type].map(card => {
               const deck_card = deck.deck_cards.find(dc => dc.card_id === card.id)
-              return (
-                <li key={card.id} className="card-li" onMouseOver={() => this.showCardImg(card.image_uris)}>
-                  {deck_card.quantity} {card.name}
-                </li>
-              )
+              if (deck_card.sideboard) {
+                return null
+              } else {
+                return (
+                  <li key={card.id} className="card-li" onMouseOver={() => this.showCardImg(card.image_uris)}>
+                    {deck_card.quantity} {card.name}
+                  </li>
+                )
+              }
             })
           }
         </ul>

@@ -23,7 +23,7 @@ class DeckCardsGroup extends Component {
         </Card.Group>
 
         <p style={{textAlign: "right"}} >
-          <Link to={this.props.link}>{this.props.linkText}</Link>
+          <Link to={this.props.link} onClick={() => window.scrollTo(0, 0)}>{this.props.linkText}</Link>
         </p>
       </Segment>
     );

@@ -13,9 +13,7 @@ class HomePage extends Component {
     }
   }
 
-  twelveNewestDecks = () => {
-    return this.props.decks.slice(-12).sort(() => -1)
-  }
+  twelveNewestDecks = () => this.props.decks.slice(-12).sort(() => -1)
 
   favoriteDecks = () => {
     return this.props.decks.filter(deck => {
@@ -41,7 +39,7 @@ class HomePage extends Component {
           header="Newest Decks"
           decks={this.twelveNewestDecks()}
           goToDeckPage={this.goToDeckPage}
-          link={"/decks"}
+          link={"/decks/all"}
           linkText="All Decks =>"
         />
 
@@ -49,7 +47,7 @@ class HomePage extends Component {
           header="Favorite Decks"
           decks={this.favoriteDecks()}
           goToDeckPage={this.goToDeckPage}
-          link={"/favorites"}
+          link={"/decks/favorites"}
           linkText="All Favorites =>"
         />
 
