@@ -40,7 +40,7 @@ class Header extends Component {
 
             <Dropdown.Menu alignRight>
               <Dropdown.Item onClick={() => this.props.history.push(`/users/${this.props.user.id}`)}>Profile</Dropdown.Item>
-              <Dropdown.Item>My Decks</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.props.history.push(`/decks/my-decks`)}>My Decks</Dropdown.Item>
               <Dropdown.Divider/>
               <Dropdown.Item className="text-center">
                 <Button variant="danger" onClick={this.logout}>Logout</Button>

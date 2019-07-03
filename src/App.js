@@ -10,8 +10,9 @@ class App extends Component {
     // console.log("App props", this.props)
     return (
       <Switch>
-        <Route exact path="/decks/all" render={props => <Pages.AllDecksPage {...props} />}/>
-        <Route exact path="/decks/favorites" render={props => <Pages.FavoriteDecksPage {...props} />}/>
+        <Route exact path="/decks/all" render={props => <Pages.PageOfDecks page="all" {...props} />}/>
+        <Route exact path="/decks/favorites" render={props => <Pages.PageOfDecks page="favorites" {...props} />}/>
+        <Route exact path="/decks/my-decks" render={props => <Pages.PageOfDecks page="my-decks" {...props} />}/>
         <Route exact path="/decks/:id" render={props => <Pages.DeckPage {...props} />}/>
         <Route exact path="/decks/:id/edit" render={props => <Pages.EditDeckPage {...props} user={this.props.user} />}/>
         <Route exact path="/new" render={props => (
@@ -20,7 +21,7 @@ class App extends Component {
         <Route exact path="/users/:id" render={props => <Pages.UserPage {...props} user={this.props.user}/>}/>
         <Route exact path="/login" render={props => <Pages.LoginPage {...props} {...this.props}/>}/>
         <Route exact path="/signup" render={props => <Pages.SignupPage {...props} {...this.props}/>}/>
-        <Route exact path="/" render={props => <Pages.HomePage {...props} {...this.props}/>}/>
+        <Route exact path="/" render={props => <Pages.PageOfDecks page="home" {...props} {...this.props}/>}/>
         <Route render={props => <Pages.NoMatchPage/>}/>
       </Switch>
     )
