@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { Form, Button, Select, Grid } from 'semantic-ui-react'
+import { Form, Button, Grid } from 'semantic-ui-react'
 
 import Header from '../components/Header'
 import NewDeckCards from '../containers/NewDeckCards'
@@ -26,17 +26,20 @@ class EditDeckPage extends Component {
     fetch(`http://localhost:3000/decks/${this.props.match.params.id}`)
       .then(r => r.json())
       .then(deck => {
-        console.log(deck);
+        // console.log(deck);
+
         const cardsInDeck = deck.cards.map(card => ({
           id: card.id,
           title: card.name,
           quantity: deck.deck_cards.find(dc => dc.card_id === card.id).quantity,
+          sideboard: deck.deck_cards.find(dc => dc.card_id === card.id).sideboard,
           description: card.mana_cost
         }))
+
         this.setState({
           deck,
           name: deck.name,
-          cardsInDeck: cardsInDeck
+          cardsInDeck
         })
       })
   }

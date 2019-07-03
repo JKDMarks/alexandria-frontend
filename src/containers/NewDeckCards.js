@@ -38,8 +38,9 @@ class NewDeckCards extends Component {
     return this.props.cardsInDeck.map(card => (
         <Card
           key={card.id} id={card.id}
-          className="has-card-id py-2"
+          className={`has-card-id py-2 ${this.props.deckImage === card.id ? "green-background" : ""}`}
           style={{height: "38px", width: "auto"}}
+
         >
           <Container>
             <Row>
@@ -88,17 +89,17 @@ class NewDeckCards extends Component {
       <Fragment>
         <p style={{textAlign: "center", font: "15px Beleren"}} className="mb-2">Cards in Deck</p>
 
-        { this.renderCardsInDeck() }
-
-        <NewDeckSearch cards={this.props.cards} handleSearchResult={this.addCardToDeck}/>
-
         {
           this.props.cardsInDeck.length > 0 ? (
-            <p style={{textAlign: "center", color: "grey", opacity: 0.7, fontSize: "10px"}}>
-              (Between Quantity and Delete, select that card to have it as the cover display image for this deck.)
+            <p style={{textAlign: "center", color: "red", fontSize: "10px"}}>
+              (Between Quantity and Delete, select that card to have it as the deck cover image.)
             </p>
           ) : (null)
         }
+
+        { this.renderCardsInDeck() }
+
+        <NewDeckSearch cards={this.props.cards} handleSearchResult={this.addCardToDeck}/>
       </Fragment>
     )
   }

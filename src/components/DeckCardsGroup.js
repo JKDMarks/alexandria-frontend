@@ -15,7 +15,7 @@ class DeckCardsGroup extends Component {
 
   render() {
     return (
-      <Segment className="m-2">
+      <Segment className="m-2 transparent">
         <Header textAlign="center" size="large">{this.props.header}</Header>
 
         <Card.Group itemsPerRow={4} className="m-0">

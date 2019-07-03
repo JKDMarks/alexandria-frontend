@@ -108,6 +108,24 @@ class DeckPage extends Component {
     return (
       <Grid.Column>
         { this.renderUlOfType("land") }
+
+        <hr/>
+
+        <h5>Sideboard</h5>
+        <ul>
+          {
+            this.state.deck.deck_cards.filter(deck_card => deck_card.sideboard).map(deck_card => {
+              const card = this.state.deck.cards.find(card => card.id === deck_card.card_id)
+
+              return (
+                <li key={card.id} className="link-li" onMouseOver={() => this.showCardImg(card.image_uris)}>
+                  {deck_card.quantity} {card.name}
+                </li>
+              )
+            })
+          }
+        </ul>
+
         <img alt="card art" src={this.state.cardImg}/>
       </Grid.Column>
     )

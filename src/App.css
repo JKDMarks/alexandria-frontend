@@ -62,3 +62,25 @@ div.segment img {
   width: auto;
   height: auto;
 }
+
+html {
+  height: 100%;
+}
+
+body {
+  /* height: 200px; */
+  height: 100%;
+  background-size: cover;
+  background-color: white; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to bottom right, #FFFBD5 10%, #AAE0FA, #C2BCBA, #FAAA8F, #9BD3AE 90%); /* Standard syntax (must be last) */
+}
+
+.transparent {
+  border: none !important;
+  background-color: rgba(255,240,245, 0.5) !important;
+  /* background-color: inherit !important; */
+}
+
+.green-background {
+  background-color: springgreen !important;
+}

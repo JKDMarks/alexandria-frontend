@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { Form, Button, Select, Grid } from 'semantic-ui-react'
+import { Form, Button, Select, Grid, Checkbox } from 'semantic-ui-react'
 // import { Container, Row, Col } from 'react-bootstrap'
 
 import Header from '../components/Header'
 import NewDeckCards from '../containers/NewDeckCards'
-import { createDeck } from '../actions/decksActions'
+import { createDeck, createDeckFromDecklist } from '../actions/decksActions'
 import { fetchCards } from '../actions/cardsActions'
 
 const formatOptions = [
@@ -26,13 +26,15 @@ class NewDeckPage extends Component {
     format: "",
     cardsInSelectedFormat: [],
     cardsInDeck: [],
-    loadingPeriods: ""
+    loadingPeriods: "",
+    isTextArea: true,
+    decklist: ""
   }
 
-  componentDidMount() {
-    this.props.fetchCards()
-    this.interval = setInterval(this.addAPeriod, 500)
-  }
+  // componentDidMount() {
+  //   this.props.fetchCards()
+  //   this.interval = setInterval(this.addAPeriod, 500)
+  // }
 
   addAPeriod = () => {
     if (this.props.isLoading) {
@@ -47,6 +49,15 @@ class NewDeckPage extends Component {
   }
 
   setDeckImage = (e, { value }) => this.setState({ deckImage: value })
+
+  toggleTextArea = () => {
+    if (this.state.isTextArea && this.props.cards.length === 0) {
+      this.props.fetchCards()
+      this.interval = setInterval(this.addAPeriod, 500)
+    }
+
+    this.setState({ isTextArea: !this.state.isTextArea })
+  }
 
   filterCardsByFormat = (e, { value }) => {
     const filteredCards = this.props.cards.filter(card => (
@@ -68,58 +79,74 @@ class NewDeckPage extends Component {
     })
   }
 
-  updateCardsInDeck = cardsInDeck => {
-    this.setState({ cardsInDeck })
-  }
+  updateCardsInDeck = cardsInDeck => this.setState({ cardsInDeck })
 
   createDeck = () => {
     let shouldCreate = true
 
-    for (const card of this.state.cardsInDeck) {
-      if (!card.quantity) {
+    if (this.state.isTextArea) {
+      if (!(this.state.name && this.state.format && this.state.decklist)) {
         shouldCreate = false
-    		break
-    	}
-    }
+      }
 
-    if (!this.state.cardsInDeck.length > 0) {
-      shouldCreate = false
-    }
-
-    if (!(this.state.name && this.state.format && this.state.deckImage !== 0)) {
-      shouldCreate = false
-    }
-
-    if (shouldCreate) {
-      this.props.createDeck(
-        {
+      if (shouldCreate) {
+        const deckObj = {
           user_id: this.props.userId,
           name: this.state.name,
           format: this.state.format,
-          image: this.state.deckImage,
-          cards: this.state.cardsInDeck
-        },
-        this.props.history
-      )
+          decklist: this.state.decklist
+        }
+
+        this.props.createDeckFromDecklist(deckObj, this.props.history)
+      }
+    } else {
+
+      for (const card of this.state.cardsInDeck) {
+        if (!card.quantity) {
+          shouldCreate = false
+      		break
+      	}
+      }
+
+      if (!this.state.cardsInDeck.length > 0) {
+        shouldCreate = false
+      }
+
+      if (!(this.state.name && this.state.format && this.state.deckImage !== 0)) {
+        shouldCreate = false
+      }
+
+      if (shouldCreate) {
+        this.props.createDeck(
+          {
+            user_id: this.props.userId,
+            name: this.state.name,
+            format: this.state.format,
+            image: this.state.deckImage,
+            cards: this.state.cardsInDeck
+          },
+          this.props.history
+        )
+      }
     }
   }
 
   render() {
     // console.log("NewDeckPage props", this.props);
-    // console.log("NewDeckPage state", this.state);
+    console.log("NewDeckPage state", this.state);
     return (
       <Fragment>
         <Header/>
 
         <div className="row">
           <div className="col-10 offset-1 mt-5">
-            <div className="card p-2">
+            <div className="card p-2 transparent">
 
               {
                 this.props.isLoading ? (
                   <Fragment>
                     <p style={{textAlign: "center", font: "20px Beleren"}}>
-                      Loading all cards{this.state.loadingPeriods}
+                      Loading all 19,000 cards{this.state.loadingPeriods}
                     </p>
                     <img
                       style={{margin: "0 auto"}}
@@ -132,7 +159,13 @@ class NewDeckPage extends Component {
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <span style={{textAlign: "center", font: "20px Beleren"}} className="mb-2">New Deck</span>
+                    <p style={{textAlign: "center", font: "20px Beleren"}} className="mb-2">New Deck</p>
+                    <Checkbox toggle
+                      checked={this.state.isTextArea}
+                      style={{margin: "auto"}}
+                      label="TextArea Decklist"
+                      onChange={this.toggleTextArea}
+                    />
 
                     <Form onSubmit={this.createDeck} style={{width: "100%"}}>
                       <Form.Input
@@ -152,22 +185,26 @@ class NewDeckPage extends Component {
                         onChange={this.filterCardsByFormat}
                       />
 
-                      {null/*<Form.Input
-                        name="image"
-                        label="Deck Image"
-                        value={this.state.image}
-                        onChange={this.handleChange}
-                      />*/}
-
                       <hr/>
 
-                      <NewDeckCards
-                        cards={this.state.cardsInSelectedFormat}
-                        updateCardsInDeck={this.updateCardsInDeck}
-                        cardsInDeck={this.state.cardsInDeck}
-                        deckImage={this.state.deckImage}
-                        setDeckImage={this.setDeckImage}
-                      />
+                      {
+                        this.state.isTextArea ? (
+                          <Form.TextArea
+                            style={{height: "250px"}}
+                            placeholder={"Decklist, one card per line.\nLeave an empty line between mainboard and sideboard.\n\ne.g.\t4 Collected Company\n\t4 Chord of Calling\n\t4 Devoted Druid\n\t4 Vizier of Remedies\n\n\t4 Leyline of Sanctity\n\t3 Thoughtseize\n\t3 Stony Silence\n\tetc..."}
+                            value={this.state.decklist}
+                            onChange={(e, { value }) => this.setState({ decklist: value })}
+                          />
+                        ) : (
+                          <NewDeckCards
+                            cards={this.state.cardsInSelectedFormat}
+                            updateCardsInDeck={this.updateCardsInDeck}
+                            cardsInDeck={this.state.cardsInDeck}
+                            deckImage={this.state.deckImage}
+                            setDeckImage={this.setDeckImage}
+                          />
+                        )
+                      }
 
                       <Grid>
                         <Grid.Column textAlign="center">
@@ -187,4 +224,7 @@ class NewDeckPage extends Component {
 
 }
 
-export default connect(({ cards, isLoading }) => ({ cards, isLoading }), ({ fetchCards, createDeck }))(NewDeckPage);
+export default connect(
+  ({ cards, isLoading }) => ({ cards, isLoading }),
+  ({ fetchCards, createDeck, createDeckFromDecklist })
+)(NewDeckPage);

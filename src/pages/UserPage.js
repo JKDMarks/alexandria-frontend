@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Grid, Button } from 'semantic-ui-react'
 import Header from '../components/Header'
+import WUBRGBanner from '../components/WUBRGBanner'
 
 class UserPage extends Component {
 
@@ -35,7 +36,9 @@ class UserPage extends Component {
 
         {
           this.state.userProfile.id ? (
-            <Segment className="m-3">
+            <Segment className="m-3 transparent">
+              <WUBRGBanner size="small"/>
+
               <h4 style={{textAlign: "center", fontFamily: "Beleren"}}>
                 {this.state.userProfile.username}
 
@@ -48,6 +51,7 @@ class UserPage extends Component {
                   ) : (null)
                 }
               </h4>
+
               <Grid columns={2}>
                 <Grid.Column>
                   <h5>Decks</h5>
@@ -63,6 +67,7 @@ class UserPage extends Component {
                     }
                   </ul>
                 </Grid.Column>
+
                 <Grid.Column>
                   <h5>Favorite Card</h5>
                   {
@@ -77,6 +82,8 @@ class UserPage extends Component {
                   }
                 </Grid.Column>
               </Grid>
+
+              <WUBRGBanner size="small"/>
             </Segment>
           ) : (null)
         }

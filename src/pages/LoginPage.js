@@ -28,6 +28,8 @@ class LoginPage extends Component {
     return (
       <div className="h-100 row align-items-center">
         <div className="col-8 offset-2">
+          <h1 style={{fontFamily: "Beleren", textAlign: "center"}}>Alexandria</h1>
+
           <div className="card p-2">
             <Grid columns={2}>
               <Grid.Column>
