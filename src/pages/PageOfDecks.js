@@ -6,14 +6,16 @@ import DeckCardsGroup from '../components/DeckCardsGroup.js'
 
 class PageOfDecks extends Component {
 
+  componentDidMount() {
+    this.props.fetchDecks()
+  }
+
   goToDeckPage = e => {
     if (!e.target.closest(".fav-btn")) {
       const deckId = e.target.closest(".card-with-deck-id").id
       this.props.history.push(`/decks/${deckId}`)
     }
   }
-
-  // twelveNewestDecks = () => this.props.decks.slice(-12).sort(() => -1)
 
   favoriteDecks = () => {
     return this.props.decks.filter(deck => {
@@ -27,13 +29,34 @@ class PageOfDecks extends Component {
 
   myDecks = () => this.props.decks.filter(deck => deck.user.id === this.props.user.id)
 
-  componentDidMount() {
-    this.props.fetchDecks()
-  }
-
   render() {
-    console.log("PageOfDecks props", this.props);
-    console.log("PageOfDecks state", this.state);
+    // console.log("PageOfDecks props", this.props);
+    // console.log("PageOfDecks state", this.state);
+
+    let decksInFormat = []
+    let urlFormat = ""
+    const formatParam = this.props.match.params.format
+
+    if (formatParam && this.props.decks.length > 0) {
+      const legalFormats = {
+        standard: "Standard",
+        modern: "Modern",
+        legacy: "Legacy",
+        vintage: "Vintage",
+        pauper: "Pauper",
+        commander: "Commander/EDH",
+        penny: "Penny Dreadful"
+      }
+
+      urlFormat = legalFormats[formatParam]
+
+      if (urlFormat) {
+        decksInFormat = this.props.decks.filter(deck => deck.format === formatParam)
+      } else {
+        this.props.history.push("/")
+      }
+    }
+
     return (
       <Fragment>
         <Header/>
@@ -84,8 +107,19 @@ class PageOfDecks extends Component {
             <Fragment>
               {/* ////////// MY DECKS PAGE ("/decks/my-decks") ////////// */}
               <DeckCardsGroup
-                header="All Decks"
+                header="My Decks"
                 decks={this.myDecks()}
+                goToDeckPage={this.goToDeckPage}
+                link={"/"}
+                linkText={"Go Home =>"}
+              />
+            </Fragment>
+          ) : this.props.page === "format" ? (
+            <Fragment>
+              {/* ////////// DECKS BY FORMAT PAGE ("/decks/format/:format") ////////// */}
+              <DeckCardsGroup
+                header={urlFormat}
+                decks={decksInFormat}
                 goToDeckPage={this.goToDeckPage}
                 link={"/"}
                 linkText={"Go Home =>"}

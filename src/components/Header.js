@@ -12,6 +12,17 @@ class Header extends Component {
 
   render() {
     // console.log("Header props", this.props)
+
+    const legalFormats = {
+      standard: "Standard",
+      modern: "Modern",
+      legacy: "Legacy",
+      vintage: "Vintage",
+      pauper: "Pauper",
+      commander: "Commander/EDH",
+      penny: "Penny Dreadful"
+    }
+
     return (
       <Navbar bg="light">
         <Navbar.Brand
@@ -26,10 +37,24 @@ class Header extends Component {
         </Navbar.Brand>
 
         <Nav className="justify-content-end" style={{width: "100%"}}>
-          <Button className="mx-2" variant="info" onClick={() => this.props.history.push("/new")}>
+          <Button className="mr-2" variant="info" onClick={() => this.props.history.push("/new")}>
             <Icon fitted className="pr-1" name="plus circle" />
             New Deck
           </Button>
+
+          <Dropdown className="mr-2">
+            <Dropdown.Toggle style={{alignItems: "center", display: "flex"}} variant="secondary">
+              Decks by Format
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu alignRight>
+              {
+                Object.keys(legalFormats).map(format => (
+                  <Dropdown.Item onClick={() => this.props.history.push(`/decks/format/${format}`)}>{legalFormats[format]}</Dropdown.Item>
+                ))
+              }
+            </Dropdown.Menu>
+          </Dropdown>
 
           <Dropdown>
             <Dropdown.Toggle style={{alignItems: "center", display: "flex"}} variant="secondary">

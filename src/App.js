@@ -13,6 +13,7 @@ class App extends Component {
         <Route exact path="/decks/all" render={props => <Pages.PageOfDecks page="all" {...props} />}/>
         <Route exact path="/decks/favorites" render={props => <Pages.PageOfDecks page="favorites" {...props} />}/>
         <Route exact path="/decks/my-decks" render={props => <Pages.PageOfDecks page="my-decks" {...props} />}/>
+        <Route exact path="/decks/format/:format" render={props => <Pages.PageOfDecks page="format" {...props} />}/>
         <Route exact path="/decks/:id" render={props => <Pages.DeckPage {...props} />}/>
         <Route exact path="/decks/:id/edit" render={props => <Pages.EditDeckPage {...props} user={this.props.user} />}/>
         <Route exact path="/new" render={props => (
