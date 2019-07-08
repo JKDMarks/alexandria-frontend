@@ -6,6 +6,18 @@ import DeckCardsGroup from '../components/DeckCardsGroup.js'
 
 class PageOfDecks extends Component {
 
+  state = {
+    legalFormats: {
+      standard: "Standard",
+      modern: "Modern",
+      legacy: "Legacy",
+      vintage: "Vintage",
+      pauper: "Pauper",
+      commander: "Commander/EDH",
+      penny: "Penny Dreadful"
+    }
+  }
+
   componentDidMount() {
     this.props.fetchDecks()
   }
@@ -34,23 +46,13 @@ class PageOfDecks extends Component {
     // console.log("PageOfDecks state", this.state);
 
     let decksInFormat = []
-    let urlFormat = ""
+    let formatName = ""
     const formatParam = this.props.match.params.format
 
     if (formatParam && this.props.decks.length > 0) {
-      const legalFormats = {
-        standard: "Standard",
-        modern: "Modern",
-        legacy: "Legacy",
-        vintage: "Vintage",
-        pauper: "Pauper",
-        commander: "Commander/EDH",
-        penny: "Penny Dreadful"
-      }
+      formatName = this.state.legalFormats[formatParam]
 
-      urlFormat = legalFormats[formatParam]
-
-      if (urlFormat) {
+      if (formatName) {
         decksInFormat = this.props.decks.filter(deck => deck.format === formatParam)
       } else {
         this.props.history.push("/")
@@ -118,7 +120,7 @@ class PageOfDecks extends Component {
             <Fragment>
               {/* ////////// DECKS BY FORMAT PAGE ("/decks/format/:format") ////////// */}
               <DeckCardsGroup
-                header={urlFormat}
+                header={formatName}
                 decks={decksInFormat}
                 goToDeckPage={this.goToDeckPage}
                 link={"/"}

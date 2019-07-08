@@ -53,6 +53,20 @@ export function signupUser({ username, password, passwordConfirm }) {
   }
 }
 
+export function updateUser(userObj, history) {
+  return dispatch => {
+    return fetch(`http://localhost:3000/users/${userObj.id}`, {
+      method: "PATCH",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userObj)
+    }).then(r => r.json())
+      .then(user => {
+        dispatch({ type: "ADD_USER", user})
+        history.push(`/profile`)
+      })
+  }
+}
+
 export function favoriteDeck(user_id, deck_id) {
   return dispatch => {
     return fetch("http://localhost:3000/favorites", {

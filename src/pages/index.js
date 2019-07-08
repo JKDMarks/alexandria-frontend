@@ -7,6 +7,7 @@ import EditDeckPage from './EditDeckPage'
 import UserPage from './UserPage'
 import PageOfDecks from './PageOfDecks'
 import ProfilePage from './ProfilePage'
+import EditProfilePage from './EditProfilePage'
 
 export default {
   LoginPage,
@@ -18,4 +19,5 @@ export default {
   UserPage,
   PageOfDecks,
   ProfilePage,
+  EditProfilePage,
 }

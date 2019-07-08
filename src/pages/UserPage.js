@@ -33,6 +33,8 @@ class UserPage extends Component {
     }
   }
 
+  handleEditClick = () => this.props.history.push("/profile/edit")
+
   render() {
     // console.log("UserPage props", this.props)
     // console.log("UserPage state", this.state)
@@ -64,7 +66,7 @@ class UserPage extends Component {
                   <ul>
                     {
                       this.state.userProfile.decks.map(deck => (
-                        <li>
+                        <li key={deck.id}>
                           <Link to={`/decks/${deck.id}`}>
                             {deck.name} ({deck.format.slice(0,1).toUpperCase() + deck.format.slice(1)})
                           </Link>
@@ -77,8 +79,8 @@ class UserPage extends Component {
                 <Grid.Column>
                   <h5>Favorite Card</h5>
                   {
-                    this.state.userProfile.favoriteCard ? (
-                      <img src={this.state.userProfile.favoriteCard.image_uris.large} alt="fav card"/>
+                    this.state.userProfile.favorite_card ? (
+                      <img src={this.state.userProfile.favorite_card.image_uris.large} alt="fav card"/>
                     ) : (
                       <img
                         src="https://img.scryfall.com/cards/large/en/unh/44.jpg?1520015716"
