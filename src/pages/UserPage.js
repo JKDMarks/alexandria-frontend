@@ -79,7 +79,7 @@ class UserPage extends Component {
                 <Grid.Column>
                   <h5>Favorite Card</h5>
                   {
-                    this.state.userProfile.favorite_card ? (
+                    this.state.userProfile.favorite_card.image_uris ? (
                       <img src={this.state.userProfile.favorite_card.image_uris.large} alt="fav card"/>
                     ) : (
                       <img
