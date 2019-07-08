@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { Form, Button, Select, Grid, Checkbox } from 'semantic-ui-react'
+import { Form, Button, Select, Grid, Checkbox, Message } from 'semantic-ui-react'
 // import { Container, Row, Col } from 'react-bootstrap'
 
 import Header from '../components/Header'
 import NewDeckCards from '../containers/NewDeckCards'
-import { createDeck, createDeckFromDecklist } from '../actions/decksActions'
+import { createDeck } from '../actions/decksActions'
 import { fetchCards } from '../actions/cardsActions'
 
 const formatOptions = [
@@ -28,13 +28,11 @@ class NewDeckPage extends Component {
     cardsInDeck: [],
     loadingPeriods: "",
     isTextArea: true,
-    decklist: ""
+    decklist: "",
+    errors: [],
+    image: ""
   }
 
-  // componentDidMount() {
-  //   this.props.fetchCards()
-  //   this.interval = setInterval(this.addAPeriod, 500)
-  // }
 
   addAPeriod = () => {
     if (this.props.isLoading) {
@@ -44,20 +42,22 @@ class NewDeckPage extends Component {
     }
   }
 
-  handleChange = (e, { value }) => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+
+  handleChange = (e, { value }) => this.setState({ [e.target.name]: e.target.value })
+
 
   setDeckImage = (e, { value }) => this.setState({ deckImage: value })
 
-  toggleTextArea = () => {
-    if (this.state.isTextArea && this.props.cards.length === 0) {
-      this.props.fetchCards()
-      this.interval = setInterval(this.addAPeriod, 500)
-    }
 
-    this.setState({ isTextArea: !this.state.isTextArea })
-  }
+  // toggleTextArea = () => {
+  //   if (this.state.isTextArea && this.props.cards.length === 0) {
+  //     this.props.fetchCards()
+  //     this.interval = setInterval(this.addAPeriod, 500)
+  //   }
+  //
+  //   this.setState({ isTextArea: !this.state.isTextArea })
+  // }
+
 
   filterCardsByFormat = (e, { value }) => {
     const filteredCards = this.props.cards.filter(card => (
@@ -79,14 +79,32 @@ class NewDeckPage extends Component {
     })
   }
 
+
   updateCardsInDeck = cardsInDeck => this.setState({ cardsInDeck })
 
   createDeck = () => {
+    this.setState({ errors: [] })
     let shouldCreate = true
 
-    if (this.state.isTextArea) {
-      if (!(this.state.name && this.state.format && this.state.decklist)) {
+    if (!this.state.name) {
+      shouldCreate = false
+      this.setState(state => ({ errors: [...state.errors, "Add a deck name"] }))
+    }
+
+    if (!this.state.format) {
+      shouldCreate = false
+      this.setState(state => ({ errors: [...state.errors, "Select a deck format"] }))
+    }
+
+    if (!this.state.image) {
+      shouldCreate = false
+      this.setState(state => ({ errors: [...state.errors, "Choose a legal mtg card name"] }))
+    }
+
+    // if (this.state.isTextArea) {
+      if (!this.state.decklist) {
         shouldCreate = false
+        this.setState(state => ({ errors: [...state.errors, "Add cards to the decklist"] }))
       }
 
       if (shouldCreate) {
@@ -94,42 +112,44 @@ class NewDeckPage extends Component {
           user_id: this.props.userId,
           name: this.state.name,
           format: this.state.format,
-          decklist: this.state.decklist
+          decklist: this.state.decklist,
+          image: this.state.image
         }
 
-        this.props.createDeckFromDecklist(deckObj, this.props.history)
+        this.props.createDeck(deckObj, this.props.history)
       }
-    } else {
-
-      for (const card of this.state.cardsInDeck) {
-        if (!card.quantity) {
-          shouldCreate = false
-      		break
-      	}
-      }
-
-      if (!this.state.cardsInDeck.length > 0) {
-        shouldCreate = false
-      }
-
-      if (!(this.state.name && this.state.format && this.state.deckImage !== 0)) {
-        shouldCreate = false
-      }
-
-      if (shouldCreate) {
-        this.props.createDeck(
-          {
-            user_id: this.props.userId,
-            name: this.state.name,
-            format: this.state.format,
-            image: this.state.deckImage,
-            cards: this.state.cardsInDeck
-          },
-          this.props.history
-        )
-      }
-    }
+    // } else {
+    //
+    //   for (const card of this.state.cardsInDeck) {
+    //     if (!card.quantity) {
+    //       shouldCreate = false
+    //   		break
+    //   	}
+    //   }
+    //
+    //   if (!this.state.cardsInDeck.length > 0) {
+    //     shouldCreate = false
+    //   }
+    //
+    //   if (this.state.deckImage === 0) {
+    //     shouldCreate = false
+    //   }
+    //
+    //   if (shouldCreate) {
+    //     this.props.createDeck(
+    //       {
+    //         user_id: this.props.userId,
+    //         name: this.state.name,
+    //         format: this.state.format,
+    //         image: this.state.deckImage,
+    //         cards: this.state.cardsInDeck
+    //       },
+    //       this.props.history
+    //     )
+    //   }
+    // }
   }
+
 
   render() {
     // console.log("NewDeckPage props", this.props);
@@ -142,7 +162,7 @@ class NewDeckPage extends Component {
           <div className="col-10 offset-1 mt-5">
             <div className="card p-2 transparent">
 
-              {
+              {/*
                 this.props.isLoading ? (
                   <Fragment>
                     <p style={{textAlign: "center", font: "20px Beleren"}}>
@@ -158,16 +178,27 @@ class NewDeckPage extends Component {
                     />
                   </Fragment>
                 ) : (
+                */}
                   <Fragment>
                     <p style={{textAlign: "center", font: "20px Beleren"}} className="mb-2">New Deck</p>
-                    <Checkbox toggle
-                      checked={this.state.isTextArea}
-                      style={{margin: "auto"}}
-                      label="TextArea Decklist"
-                      onChange={this.toggleTextArea}
-                    />
+                    {null/*
+                      <Checkbox toggle
+                        checked={this.state.isTextArea}
+                        style={{margin: "auto"}}
+                        label="TextArea Decklist"
+                        onChange={this.toggleTextArea}
+                      />
+                    */}
 
                     <Form onSubmit={this.createDeck} style={{width: "100%"}}>
+                      {
+                        this.state.errors.length > 0 ? (
+                          <Message negative>
+                            { this.state.errors.map(error => <Fragment>{error}<br/></Fragment>) }
+                          </Message>
+                        ) : null
+                      }
+
                       <Form.Input
                         name="name"
                         label="Deck Name"
@@ -176,25 +207,34 @@ class NewDeckPage extends Component {
                       />
 
                       <Form.Input
-                        className="deck-format-dropdown"
+                        className={"" /*"deck-format-dropdown"*/}
                         name="format"
                         label="Deck Format"
-                        placeholder="Select a format to add cards. (Changing formats removes all cards from your deck)"
+                        placeholder={"Select a deck format" /*"Select a format to add cards. (Changing formats removes all cards from your deck)"*/}
                         control={Select}
                         options={formatOptions}
                         onChange={this.filterCardsByFormat}
                       />
 
-                      <hr/>
+                      <Form.Input
+                        name="image"
+                        label="Deck Image Card Name"
+                        placeholder="Write a valid MTG card name here"
+                        value={this.state.image}
+                        onChange={this.handleChange}
+                      />
 
-                      {
+                      {/*
                         this.state.isTextArea ? (
+                      */}
                           <Form.TextArea
+                            label="Decklist"
                             style={{height: "250px"}}
                             placeholder={"Decklist, one card per line.\nLeave an empty line between mainboard and sideboard.\n\ne.g.\t4 Collected Company\n\t4 Chord of Calling\n\t4 Devoted Druid\n\t4 Vizier of Remedies\n\n\t4 Leyline of Sanctity\n\t3 Thoughtseize\n\t3 Stony Silence\n\tetc..."}
                             value={this.state.decklist}
                             onChange={(e, { value }) => this.setState({ decklist: value })}
                           />
+                      {/*
                         ) : (
                           <NewDeckCards
                             cards={this.state.cardsInSelectedFormat}
@@ -204,7 +244,7 @@ class NewDeckPage extends Component {
                             setDeckImage={this.setDeckImage}
                           />
                         )
-                      }
+                      */}
 
                       <Grid>
                         <Grid.Column textAlign="center">
@@ -213,8 +253,9 @@ class NewDeckPage extends Component {
                       </Grid>
                     </Form>
                   </Fragment>
-                )
+                {/* )
               }
+              */}
             </div>
           </div>
         </div>
@@ -226,5 +267,9 @@ class NewDeckPage extends Component {
 
 export default connect(
   ({ cards, isLoading }) => ({ cards, isLoading }),
-  ({ fetchCards, createDeck, createDeckFromDecklist })
+  ({ fetchCards, createDeck })
 )(NewDeckPage);
+
+// <Message negative>
+//   We're sorry we can't apply that discount
+// </Message>

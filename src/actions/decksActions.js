@@ -6,23 +6,23 @@ export function fetchDecks() {
   }
 }
 
+// export function createDeck(deckObj, history) {
+//   return dispatch => {
+//     return fetch("http://localhost:3000/decks", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(deckObj)
+//     }).then(r => r.json())
+//       .then(deck => {
+//         dispatch({ type: "ADD_DECK", deck })
+//         history.push(`/decks/${deck.id}`)
+//       })
+//   }
+// }
+
 export function createDeck(deckObj, history) {
   return dispatch => {
     return fetch("http://localhost:3000/decks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(deckObj)
-    }).then(r => r.json())
-      .then(deck => {
-        dispatch({ type: "ADD_DECK", deck })
-        history.push(`/decks/${deck.id}`)
-      })
-  }
-}
-
-export function createDeckFromDecklist(deckObj, history) {
-  return dispatch => {
-    return fetch("http://localhost:3000/decklist", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(deckObj)
