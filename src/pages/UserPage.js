@@ -13,7 +13,13 @@ class UserPage extends Component {
   componentDidMount() {
     fetch(`http://localhost:3000/users/${this.props.match.params.id}`)
       .then(r => r.json())
-      .then(user => this.setState({ userProfile: user }))
+      .then(user => {
+        if (user.status === 404) {
+          this.props.history.push("/")
+        } else {
+          this.setState({ userProfile: user })
+        }
+      })
   }
 
   componentWillReceiveProps(newProps) {

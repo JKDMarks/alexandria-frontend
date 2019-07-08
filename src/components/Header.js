@@ -4,16 +4,8 @@ import { Icon } from 'semantic-ui-react'
 import withAuth from '../hocs/withAuth'
 
 class Header extends Component {
-  logout = () => {
-    this.props.logoutUser()
-    localStorage.removeItem("token")
-    this.props.history.push("/login")
-  }
-
-  render() {
-    // console.log("Header props", this.props)
-
-    const legalFormats = {
+  state = {
+    legalFormats: {
       standard: "Standard",
       modern: "Modern",
       legacy: "Legacy",
@@ -22,7 +14,16 @@ class Header extends Component {
       commander: "Commander/EDH",
       penny: "Penny Dreadful"
     }
+  }
 
+  logout = () => {
+    this.props.logoutUser()
+    localStorage.removeItem("token")
+    this.props.history.push("/login")
+  }
+
+  render() {
+    // console.log("Header props", this.props)
     return (
       <Navbar bg="light">
         <Navbar.Brand
@@ -49,8 +50,8 @@ class Header extends Component {
 
             <Dropdown.Menu alignRight>
               {
-                Object.keys(legalFormats).map(format => (
-                  <Dropdown.Item onClick={() => this.props.history.push(`/decks/format/${format}`)}>{legalFormats[format]}</Dropdown.Item>
+                Object.keys(this.state.legalFormats).map(format => (
+                  <Dropdown.Item key={format} onClick={() => this.props.history.push(`/decks/format/${format}`)}>{this.state.legalFormats[format]}</Dropdown.Item>
                 ))
               }
             </Dropdown.Menu>

@@ -26,15 +26,17 @@ class EditDeckPage extends Component {
     fetch(`http://localhost:3000/decks/${this.props.match.params.id}`)
       .then(r => r.json())
       .then(deck => {
-        // console.log(deck);
+        const cardsInDeck = deck.deck_cards.map(deckCard => {
+          const card = deck.cards.find(card => card.id === deckCard.card_id)
 
-        const cardsInDeck = deck.cards.map(card => ({
-          id: card.id,
-          title: card.name,
-          quantity: deck.deck_cards.find(dc => dc.card_id === card.id).quantity,
-          sideboard: deck.deck_cards.find(dc => dc.card_id === card.id).sideboard,
-          description: card.mana_cost
-        }))
+          return {
+            id: card.id,
+            title: card.name,
+            quantity: deckCard.quantity,
+            sideboard: deckCard.sideboard,
+            description: card.mana_cost
+          }
+        })
 
         this.setState({
           deck,

@@ -6,6 +6,7 @@ import NoMatchPage from './NoMatchPage'
 import EditDeckPage from './EditDeckPage'
 import UserPage from './UserPage'
 import PageOfDecks from './PageOfDecks'
+import ProfilePage from './ProfilePage'
 
 export default {
   LoginPage,
@@ -15,5 +16,6 @@ export default {
   EditDeckPage,
   NoMatchPage,
   UserPage,
-  PageOfDecks
+  PageOfDecks,
+  ProfilePage,
 }

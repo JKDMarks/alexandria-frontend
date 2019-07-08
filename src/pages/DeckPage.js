@@ -10,6 +10,8 @@ class DeckPage extends Component {
 
   state = {
     deck: {},
+    mainboardCount: 0,
+    sideboardCount: 0,
     byTypeObj: {
       creature: [],
       planeswalker: [],
@@ -19,7 +21,10 @@ class DeckPage extends Component {
       sorcery: [],
       land: []
     },
-    cardImg: ""
+    imgSrc: "",
+    imgDisplay: "none",
+    imgTop: 0,
+    imgLeft: 0
   }
 
   componentDidMount() {
@@ -32,14 +37,35 @@ class DeckPage extends Component {
 
           for (const card of deck.cards) {
             const type = card.types[card.types.length - 1].toLowerCase()
-            byTypeObj[type].push(card)
+            const isDuplicate = byTypeObj[type].find(cardInTypeObj => cardInTypeObj.id === card.id)
+
+            if (!isDuplicate) {
+              byTypeObj[type].push(card)
+            }
           }
 
-          this.setState({ deck, byTypeObj: byTypeObj, cardImg: deck.image })
+          this.setState({ deck, byTypeObj: byTypeObj, imgSrc: deck.image })
         } else {
           this.props.history.push("/")
         }
       })
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (!prevState.deck.id && this.state.deck.id) {
+      let mainboardCount = 0
+      let sideboardCount = 0
+
+      for (const deck_card of this.state.deck.deck_cards) {
+        if (deck_card.sideboard) {
+          sideboardCount += deck_card.quantity
+        } else {
+          mainboardCount += deck_card.quantity
+        }
+      }
+
+      this.setState({ mainboardCount, sideboardCount })
+    }
   }
 
   handleEditClick = () => {
@@ -57,13 +83,21 @@ class DeckPage extends Component {
     }
   }
 
-  showCardImg = imagesObj => {
-    this.setState({ cardImg: imagesObj.normal })
-  }
+  showCardImg = (image, e) => this.setState({
+    imgSrc: image,
+    imgDisplay: "",
+    imgTop: e.clientY, // + document.querySelector("#sideboard-ul").clientHeight - 300,
+    imgLeft: e.clientX
+  })
+
+  resetCardImg = () => this.setState({ imgSrc: "", imgDisplay: "none" })
 
   renderUlOfType = type => {
     const deck = this.state.deck
-    const typeLine = type.slice(0, 1).toUpperCase() + type.slice(1) + 's'
+    let typeLine = type.slice(0, 1).toUpperCase() + type.slice(1) + 's'
+    if (typeLine === "Sorcerys") {
+      typeLine = "Sorceries"
+    }
 
     return (
       <Fragment key={type}>
@@ -76,7 +110,12 @@ class DeckPage extends Component {
                 return null
               } else {
                 return (
-                  <li key={card.id} className="link-li" onMouseOver={() => this.showCardImg(card.image_uris)}>
+                  <li
+                    key={"mainboard-" + card.id}
+                    className="link-li"
+                    onMouseEnter={e => this.showCardImg(card.image_uris.normal, e)}
+                    onMouseLeave={() => this.resetCardImg()}
+                  >
                     {deck_card.quantity} {card.name}
                   </li>
                 )
@@ -88,9 +127,10 @@ class DeckPage extends Component {
     )
   }
 
-  renderNonlandColumn = () => {
+  renderFirstColumn = () => {
     return (
       <Grid.Column>
+        <h4>Mainboard ({this.state.mainboardCount})</h4>
         {
           Object.keys(this.state.byTypeObj).map(type => {
             if (type !== "land" && this.state.byTypeObj[type].length > 0) {
@@ -100,39 +140,40 @@ class DeckPage extends Component {
             }
           })
         }
+
+        { this.renderUlOfType("land") }
       </Grid.Column>
     )
   }
 
-  renderLandColumn = () => {
+  renderSecondColumn = () => {
     return (
       <Grid.Column>
-        { this.renderUlOfType("land") }
-
-        <hr/>
-
-        <h5>Sideboard</h5>
-        <ul>
+        <h4>Sideboard ({this.state.sideboardCount})</h4>
+        <ul id="sideboard-ul">
           {
             this.state.deck.deck_cards.filter(deck_card => deck_card.sideboard).map(deck_card => {
               const card = this.state.deck.cards.find(card => card.id === deck_card.card_id)
 
               return (
-                <li key={card.id} className="link-li" onMouseOver={() => this.showCardImg(card.image_uris)}>
+                <li
+                  key={"sideboard-" + card.id}
+                  className="link-li"
+                  onMouseEnter={e => this.showCardImg(card.image_uris.normal, e)}
+                  onMouseLeave={() => this.resetCardImg()}
+                >
                   {deck_card.quantity} {card.name}
                 </li>
               )
             })
           }
         </ul>
-
-        <img alt="card art" src={this.state.cardImg}/>
       </Grid.Column>
     )
   }
 
   render() {
-    console.log("DeckPage props", this.props);
+    // console.log("DeckPage props", this.props);
     console.log("DeckPage state", this.state);
 
     return (
@@ -156,10 +197,22 @@ class DeckPage extends Component {
               </h4>
 
               <Grid textAlign="left" columns={2}>
-                { this.renderNonlandColumn() }
+                { this.renderFirstColumn() }
 
-                { this.renderLandColumn() }
+                { this.renderSecondColumn() }
               </Grid>
+
+              <img
+                alt="card art" src={this.state.imgSrc}
+                style={{
+                  position: "fixed",
+                  maxHeight: "300px",
+                  margin: "auto",
+                  top: this.state.imgTop,
+                  left: this.state.imgLeft + 25,
+                  display: this.state.imgDisplay
+                }}
+              />
 
               <p style={{fontSize: "10px", opacity: "0.75", color: "gray", textAlign: "center"}}>
                 Created by <Link to={`/users/${this.state.deck.user.id}`}>{this.state.deck.user.username}</Link> on {moment(this.state.deck.created_at).format('MMM D YYYY, h:mm a')}
