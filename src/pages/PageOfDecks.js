@@ -30,13 +30,13 @@ class PageOfDecks extends Component {
   }
 
   favoriteDecks = () => {
-    return this.props.decks.filter(deck => {
-      if (Array.isArray(this.props.user.favorites)) {
+    if (Array.isArray(this.props.user.favorites)) {
+      return this.props.decks.filter(deck => {
         return this.props.user.favorites.find(fav => fav.deck_id === deck.id)
-      } else {
-        return []
-      }
-    })
+      })
+    } else {
+      return []
+    }
   }
 
   myDecks = () => this.props.decks.filter(deck => deck.user.id === this.props.user.id)

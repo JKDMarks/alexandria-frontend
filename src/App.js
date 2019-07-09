@@ -7,7 +7,7 @@ import withAuth from './hocs/withAuth'
 
 class App extends Component {
   render() {
-    // console.log("App props", this.props)
+    console.log("App props", this.props)
     return (
       <Switch>
         <Route exact path="/decks/all" render={props => <Pages.PageOfDecks page="all" {...props} />}/>

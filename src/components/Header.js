@@ -45,10 +45,16 @@ class Header extends Component {
 
           <Dropdown className="mr-2">
             <Dropdown.Toggle style={{alignItems: "center", display: "flex"}} variant="secondary">
-              Decks by Format
+              Decks
             </Dropdown.Toggle>
 
             <Dropdown.Menu alignRight>
+              <Dropdown.Item onClick={() => this.props.history.push("/decks/all")}>All Decks</Dropdown.Item>
+              <Dropdown.Divider/>
+              <Dropdown.Item onClick={() => this.props.history.push("/decks/my-decks")}>My Decks</Dropdown.Item>
+              <Dropdown.Item onClick={() => this.props.history.push("/decks/favorites")}>Favorite Decks</Dropdown.Item>
+              <Dropdown.Divider/>
+              <Dropdown.Header>By Format</Dropdown.Header>
               {
                 Object.keys(this.state.legalFormats).map(format => (
                   <Dropdown.Item key={format} onClick={() => this.props.history.push(`/decks/format/${format}`)}>{this.state.legalFormats[format]}</Dropdown.Item>
@@ -66,10 +72,9 @@ class Header extends Component {
 
             <Dropdown.Menu alignRight>
               <Dropdown.Item onClick={() => this.props.history.push(`/users/${this.props.user.id}`)}>Profile</Dropdown.Item>
-              <Dropdown.Item onClick={() => this.props.history.push(`/decks/my-decks`)}>My Decks</Dropdown.Item>
               <Dropdown.Divider/>
-              <Dropdown.Item className="text-center">
-                <Button variant="danger" onClick={this.logout}>Logout</Button>
+              <Dropdown.Item onClick={this.logout} style={{color: "lightcoral"}}>
+                <b>Logout</b>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

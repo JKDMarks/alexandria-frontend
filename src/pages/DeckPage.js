@@ -86,7 +86,7 @@ class DeckPage extends Component {
   showCardImg = (image, e) => this.setState({
     imgSrc: image,
     imgDisplay: "",
-    imgTop: e.clientY, // + document.querySelector("#sideboard-ul").clientHeight - 300,
+    imgTop: e.clientY + 300 > window.innerHeight ? e.clientY - 300 : e.clientY, // + document.querySelector("#sideboard-ul").clientHeight - 300,
     imgLeft: e.clientX
   })
 
@@ -174,7 +174,7 @@ class DeckPage extends Component {
 
   render() {
     // console.log("DeckPage props", this.props);
-    console.log("DeckPage state", this.state);
+    // console.log("DeckPage state", this.state);
 
     return (
       <Fragment>

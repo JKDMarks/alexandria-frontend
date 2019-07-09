@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { favoriteDeck, unfavoriteDeck } from '../actions/userActions'
-import { Card, Image, Icon, Button } from 'semantic-ui-react'
+import { Card, Image, Icon, Button, Grid } from 'semantic-ui-react'
 import moment from 'moment'
+import WUBRGBanner from '../components/WUBRGBanner'
 
 class DeckCard extends Component {
 
@@ -24,13 +25,22 @@ class DeckCard extends Component {
 
   render() {
     // console.log("DeckCard props", this.props);
-    // console.log("DeckCard favInstance()", this.favInstance());
-    const { deck: {id, name, format, image, user, created_at} } = this.props
+    const { deck: {id, name, format, image, user, created_at, colors} } = this.props
     const capitalizeFormat = format.slice(0,1).toUpperCase() + format.slice(1)
 
     return (
       <Card onClick={this.props.goToDeckPage} className="card-with-deck-id" id={id}>
         <Card.Content textAlign="center">
+          <Grid className="p-2" columns={5}>
+            <Grid.Column className="p-0 m-0"><img style={{height: "20px", width: "20px", opacity: colors.includes("W") ? 1 : 0.10}} src="/images/W.png" alt="white mana symbol"/></Grid.Column>
+            <Grid.Column className="p-0 m-0"><img style={{height: "20px", width: "20px", opacity: colors.includes("U") ? 1 : 0.10}} src="/images/U.png" alt="blue mana symbol"/></Grid.Column>
+            <Grid.Column className="p-0 m-0"><img style={{height: "20px", width: "20px", opacity: colors.includes("B") ? 1 : 0.10}} src="/images/B.png" alt="black mana symbol"/></Grid.Column>
+            <Grid.Column className="p-0 m-0"><img style={{height: "20px", width: "20px", opacity: colors.includes("R") ? 1 : 0.10}} src="/images/R.png" alt="red mana symbol"/></Grid.Column>
+            <Grid.Column className="p-0 m-0"><img style={{height: "20px", width: "20px", opacity: colors.includes("G") ? 1 : 0.10}} src="/images/G.png" alt="green mana symbol"/></Grid.Column>
+          </Grid>
+
+          <br/>
+
           <Card.Header>{name}</Card.Header>
           <hr className="my-0" width="100%"/>
           <Card.Meta>{capitalizeFormat}</Card.Meta>

@@ -25,12 +25,13 @@ class NewDeckPage extends Component {
     errors: [],
   }
 
-  handleChange = (e, { value }) => this.setState({ [e.target.name]: e.target.value })
+  handleChange = (e, { value }) => this.setState({ [e.target.name]: value })
 
   setDeckImage = (e, { value }) => this.setState({ deckImage: value })
 
   updateCardsInDeck = cardsInDeck => this.setState({ cardsInDeck })
 
+  selectFormat = (e, { value }) => this.setState({ format: value })
 
   createDeck = () => {
     this.setState({ errors: [] })
@@ -104,7 +105,7 @@ class NewDeckPage extends Component {
                     label="Deck Format"
                     placeholder="Select a deck format"
                     options={formatOptions}
-                    onChange={this.filterCardsByFormat}
+                    onChange={this.selectFormat}
                   />
 
                   <Form.Input
