@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { favoriteDeck, unfavoriteDeck } from '../actions/userActions'
 import { Card, Image, Icon, Button, Grid } from 'semantic-ui-react'
 import moment from 'moment'
-import WUBRGBanner from '../components/WUBRGBanner'
+// import WUBRGBanner from '../components/WUBRGBanner'
 
 class DeckCard extends Component {
 

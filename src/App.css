@@ -41,7 +41,7 @@ nav span.navbar-brand:hover {
 
 .link-li:hover {
   color: blue;
-  text-decoration: underline;
+  font-weight: bold;
 }
 
 .spin {
@@ -76,7 +76,7 @@ body {
 }
 
 .transparent {
-  border: none !important;
+  /* border: none !important; */
   background-color: rgba(255,240,245, 0.5) !important;
   /* background-color: inherit !important; */
 }
@@ -84,3 +84,10 @@ body {
 .green-background {
   background-color: springgreen !important;
 }
+
+/* .wubrg-border {
+  border-image-source: url('/images/G.png') !important;
+  border-image-slice: 44  !important;
+  border-image-width: 25px !important;
+  border-image-repeat: repeat !important;
+} */

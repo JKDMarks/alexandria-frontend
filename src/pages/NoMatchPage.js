@@ -7,7 +7,8 @@ class NoMatchPage extends Component {
     return (
       <div style={{textAlign: "center"}}>
         <img src="https://img.scryfall.com/cards/art_crop/en/gtc/54.jpg?1517813031" alt="Totally Lost"/>
-        <Link to="/">Go Home</Link>
+        <br/>
+        <Link to="/">Go Home =></Link>
       </div>
     );
   }
