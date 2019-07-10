@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 // import { Link } from 'react-router-dom'
 import { Segment, Card, Image } from 'semantic-ui-react'
 import Header from '../components/Header.js'
-// import { testImage } from '../actions/cardsActions'
+import { testImage } from '../actions/cardsActions'
 
 class UsersPage extends Component {
 
@@ -12,6 +12,13 @@ class UsersPage extends Component {
     fetch("http://localhost:3000/users")
       .then(r => r.json())
       .then(users => this.setState({ users }))
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.users.length > 0 && prevState.users.length === 0) {
+      this.state.users.forEach(user => testImage({ imageURL: user.image }))
+
+    }
   }
 
   renderUsers = () => this.state.users.map(user => {

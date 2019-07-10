@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Grid, Segment, Button } from 'semantic-ui-react'
 import { fetchUser } from '../actions/userActions'
+import { testImage } from '../actions/cardsActions'
 import Header from '../components/Header'
 import moment from 'moment'
 
@@ -99,6 +100,8 @@ class DeckPage extends Component {
           }
 
           for (const card of deck.cards) {
+            testImage({imageURL: card.image_uris.normal, card_id: card.id})
+
             const type = card.types[card.types.length - 1].toLowerCase()
             const isDuplicate = byTypeObj[type].find(cardInTypeObj => cardInTypeObj.id === card.id)
             const deck_cards = deck.deck_cards.filter(deck_card => deck_card.card_id === card.id)
