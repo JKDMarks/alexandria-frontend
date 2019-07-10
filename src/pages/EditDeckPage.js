@@ -29,6 +29,9 @@ class EditDeckPage extends Component {
     fetch(`http://localhost:3000/decks/${this.props.match.params.id}`)
       .then(r => r.json())
       .then(deck => {
+        if (deck.status === 404) {
+          this.props.history.push("/")
+        }
         const { name, format, image, decklist } = deck
         this.setState({ name, format, image, decklist })
       })
