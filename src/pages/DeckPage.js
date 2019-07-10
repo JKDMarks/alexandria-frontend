@@ -90,6 +90,14 @@ class DeckPage extends Component {
           let mainboardCount = 0
           let sideboardCount = 0
 
+          for (const deck_card of deck.deck_cards) {
+            if (deck_card.sideboard) {
+              sideboardCount += deck_card.quantity
+            } else {
+              mainboardCount += deck_card.quantity
+            }
+          }
+
           for (const card of deck.cards) {
             const type = card.types[card.types.length - 1].toLowerCase()
             const isDuplicate = byTypeObj[type].find(cardInTypeObj => cardInTypeObj.id === card.id)
@@ -108,12 +116,6 @@ class DeckPage extends Component {
                 color = card.colors[0]
               } else {
                 color = "gold"
-              }
-
-              if (deck_card.sideboard) {
-                sideboardCount += deck_card.quantity
-              } else {
-                mainboardCount += deck_card.quantity
               }
 
               const datasetIndex = colorsIndexObj[color]
@@ -178,7 +180,7 @@ class DeckPage extends Component {
         }
       })
   }
-  
+
 
   handleEditClick = () => {
     this.props.history.push(`/decks/${this.state.deck.id}/edit`)

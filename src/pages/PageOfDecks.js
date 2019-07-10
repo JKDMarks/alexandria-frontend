@@ -69,7 +69,7 @@ class PageOfDecks extends Component {
               {/* ////////// HOME PAGE ("/") ////////// */}
               <DeckCardsGroup
                 header="Newest Decks"
-                decks={this.props.decks.slice(-12).sort(() => -1)}
+                decks={this.props.decks.slice(-4).sort(() => -1)}
                 goToDeckPage={this.goToDeckPage}
                 link={"/decks/all"}
                 linkText="All Decks =>"

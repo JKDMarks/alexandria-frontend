@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { Segment, Card, Image } from 'semantic-ui-react'
 import Header from '../components/Header.js'
 // import { testImage } from '../actions/cardsActions'

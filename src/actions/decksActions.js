@@ -6,19 +6,6 @@ export function fetchDecks() {
   }
 }
 
-// export function createDeck(deckObj, history) {
-//   return dispatch => {
-//     return fetch("http://localhost:3000/decks", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(deckObj)
-//     }).then(r => r.json())
-//       .then(deck => {
-//         dispatch({ type: "ADD_DECK", deck })
-//         history.push(`/decks/${deck.id}`)
-//       })
-//   }
-// }
 
 export function createDeck(deckObj, history) {
   return dispatch => {
@@ -31,6 +18,7 @@ export function createDeck(deckObj, history) {
         dispatch({ type: "ADD_DECK", deck })
         history.push(`/decks/${deck.id}`)
       })
+      .catch(error => console.log(error))
   }
 }
 
@@ -45,18 +33,20 @@ export function updateDeck(deckObj, history) {
         dispatch({ type: "ADD_DECK", deck })
         history.push(`/decks/${deck.id}`)
       })
+      .catch(error => console.log(error))
   }
 }
 
-// export function updateDeck(deckObj, history) {
-//   return dispatch => {
-//     return fetch(`http://localhost:3000/decks/${deckObj.id}`, {
-//       method: "PATCH",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(deckObj)
-//     }).then(r => r.json())
-//       .then(deck => {
-//         history.push(`/decks/${deck.id}`)
-//       })
-//   }
-// }
+export function createDeckFromURL(deckObj, history) {
+  return dispatch => {
+    return fetch("http://localhost:3000/decks/url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(deckObj)
+    }).then(r => r.json())
+      .then(deck => {
+        history.push(`/decks/${deck.id}`)
+      })
+      .catch(error => console.log(error))
+  }
+}
