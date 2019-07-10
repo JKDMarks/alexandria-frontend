@@ -100,7 +100,7 @@ class DeckPage extends Component {
           }
 
           for (const card of deck.cards) {
-            testImage({imageURL: card.image_uris.normal, card_id: card.id})
+            testImage({imageURL: card.image_uris.normal, cardId: card.id})
 
             const type = card.types[card.types.length - 1].toLowerCase()
             const isDuplicate = byTypeObj[type].find(cardInTypeObj => cardInTypeObj.id === card.id)
