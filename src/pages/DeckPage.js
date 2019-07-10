@@ -39,13 +39,14 @@ class DeckPage extends Component {
     const cmcData = {
       labels: [],
       datasets: [
+        ////////// EACH DATA ARRAY = [ 1cmc, 2cmc, 3cmc, etc... ] //////////
         { label: 'White', backgroundColor: '#FFFBD5', data: [] },
         { label: 'Blue', backgroundColor: '#AAE0FA', data: [] },
         { label: 'Black', backgroundColor: '#C2BCBA', data: [] },
         { label: 'Red', backgroundColor: '#FAAA8F', data: [] },
         { label: 'Green', backgroundColor: '#9BD3AE', data: [] },
         { label: 'Gold', backgroundColor: 'gold', data: [] },
-        { label: 'Colorless', backgroundColor: 'darkslategray', data: [] }
+        { label: 'Colorless', backgroundColor: 'plum', data: [] }
       ]
     }
 
@@ -62,7 +63,7 @@ class DeckPage extends Component {
       labels: ['White', 'Blue', 'Black', 'Red', 'Green'],
       datasets: [
         {
-          data: [0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0], // [W, U, B, R, G]
           backgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ],
           // hoverBackgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ]
         }
@@ -73,7 +74,7 @@ class DeckPage extends Component {
       labels: ['White', 'Blue', 'Black', 'Red', 'Green'],
       datasets: [
         {
-          data: [0, 0, 0, 0, 0],
+          data: [0, 0, 0, 0, 0], // [W, U, B, R, G]
           backgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ],
           // hoverBackgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ]
         }
@@ -86,6 +87,8 @@ class DeckPage extends Component {
       .then(deck => {
         if (deck.id) {
           const byTypeObj = { creature: [], planeswalker: [], artifact: [], enchantment: [], instant: [], sorcery: [], land: [] }
+          let mainboardCount = 0
+          let sideboardCount = 0
 
           for (const card of deck.cards) {
             const type = card.types[card.types.length - 1].toLowerCase()
@@ -107,6 +110,12 @@ class DeckPage extends Component {
                 color = "gold"
               }
 
+              if (deck_card.sideboard) {
+                sideboardCount += deck_card.quantity
+              } else {
+                mainboardCount += deck_card.quantity
+              }
+
               const datasetIndex = colorsIndexObj[color]
               cmcData.labels[card.cmc - 1] = `${card.cmc -1} CMC`
               cmcData.datasets[datasetIndex].data[card.cmc - 1] ? cmcData.datasets[datasetIndex].data[card.cmc - 1] += deck_card.quantity : cmcData.datasets[datasetIndex].data[card.cmc - 1] = deck_card.quantity
@@ -123,20 +132,28 @@ class DeckPage extends Component {
             }
           }
 
-          for (const [i, label] of cmcData.labels.entries()) {
-            if (!label) {
+          ////////// UPDATE ALL MISSING CMC LABELS //////////
+          for (let i=0; i < cmcData.labels.length; i++) {
+            if (!cmcData.labels[i]) {
               cmcData.labels[i] = `${i} CMC`
             }
           }
 
-          for (const [dataInd] of cmcData.datasets.entries()) {
-            for (const [i, datum] of cmcData.datasets[dataInd].data.entries()) {
-              if (!datum) {
-                cmcData.datasets[dataInd].data[i] = 0
+          ////////// REMOVE ALL EMPTY CMC DATASETS //////////
+          for (let i = 0; i < cmcData.datasets.length; i++) {
+            if (cmcData.datasets[i].data.length === 0) {
+              cmcData.datasets.splice(i, 1)
+              i--
+            } else {
+              for (let j = 0; j < cmcData.datasets[i].data.length; j++) {
+                if (!cmcData.datasets[i].data[j]) {
+                  cmcData.datasets[i].data[j] = 0
+                }
               }
             }
           }
 
+          ////////// REMOVE ALL EMPTY COLORS FOR SPELLS AND LANDS, RESPECTIVELY //////////
           for (let i = 0; i < spellsColorsData.datasets[0].data.length; i++) {
             if (spellsColorsData.datasets[0].data[i] === 0) {
               spellsColorsData.datasets[0].data.splice(i, 1)
@@ -155,29 +172,13 @@ class DeckPage extends Component {
             }
           }
 
-          this.setState({ deck, byTypeObj: byTypeObj, imgSrc: deck.image, cmcData, cmcOptions, landsColorsData, spellsColorsData })
+          this.setState({ deck, byTypeObj, imgSrc: deck.image, cmcData, cmcOptions, landsColorsData, spellsColorsData, mainboardCount, sideboardCount })
         } else {
           this.props.history.push("/")
         }
       })
   }
-
-  componentDidUpdate = (prevProps, prevState) => {
-    if (!prevState.deck.id && this.state.deck.id) {
-      let mainboardCount = 0
-      let sideboardCount = 0
-
-      for (const deck_card of this.state.deck.deck_cards) {
-        if (deck_card.sideboard) {
-          sideboardCount += deck_card.quantity
-        } else {
-          mainboardCount += deck_card.quantity
-        }
-      }
-
-      this.setState({ mainboardCount, sideboardCount })
-    }
-  }
+  
 
   handleEditClick = () => {
     this.props.history.push(`/decks/${this.state.deck.id}/edit`)
