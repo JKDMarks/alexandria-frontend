@@ -64,7 +64,7 @@ class DeckPage extends Component {
         {
           data: [0, 0, 0, 0, 0],
           backgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ],
-          hoverBackgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ]
+          // hoverBackgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ]
         }
       ]
     }
@@ -75,7 +75,7 @@ class DeckPage extends Component {
         {
           data: [0, 0, 0, 0, 0],
           backgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ],
-          hoverBackgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ]
+          // hoverBackgroundColor: [ "#FFFBD5", "#AAE0FA", "#C2BCBA", "#FAAA8F", "#9BD3AE" ]
         }
       ]
     }
@@ -134,6 +134,24 @@ class DeckPage extends Component {
               if (!datum) {
                 cmcData.datasets[dataInd].data[i] = 0
               }
+            }
+          }
+
+          for (let i = 0; i < spellsColorsData.datasets[0].data.length; i++) {
+            if (spellsColorsData.datasets[0].data[i] === 0) {
+              spellsColorsData.datasets[0].data.splice(i, 1)
+              spellsColorsData.datasets[0].backgroundColor.splice(i, 1)
+              spellsColorsData.labels.splice(i, 1)
+              i--
+            }
+          }
+
+          for (let i = 0; i < landsColorsData.datasets[0].data.length; i++) {
+            if (landsColorsData.datasets[0].data[i] === 0) {
+              landsColorsData.datasets[0].data.splice(i, 1)
+              landsColorsData.datasets[0].backgroundColor.splice(i, 1)
+              landsColorsData.labels.splice(i, 1)
+              i--
             }
           }
 
