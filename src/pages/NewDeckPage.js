@@ -49,7 +49,7 @@ class NewDeckPage extends Component {
 
     if (!this.state.image) {
       shouldCreate = false
-      this.setState(state => ({ errors: [...state.errors, "Choose a legal mtg card name to be the display image for this deck"] }))
+      this.setState(state => ({ errors: [...state.errors, "Choose a valid URL to be the display image for this deck"] }))
     }
 
     if (!this.state.decklist) {
@@ -110,8 +110,8 @@ class NewDeckPage extends Component {
 
                   <Form.Input
                     name="image"
-                    label="Deck Image Card Name"
-                    placeholder="Write a valid MTG card name here"
+                    label="Deck Image URL"
+                    placeholder="Image URL here"
                     value={this.state.image}
                     onChange={this.handleChange}
                   />
