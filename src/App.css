@@ -45,7 +45,7 @@ nav span.navbar-brand:hover {
 }
 
 .spin {
-  animation: spin 4s infinite linear;
+  animation: spin 4s infinite linear !important;
 }
 
 @keyframes spin {

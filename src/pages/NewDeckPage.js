@@ -101,7 +101,7 @@ class NewDeckPage extends Component {
                 <p style={{textAlign: "center", font: "20px Beleren"}} className="mb-2">New Deck</p>
                 <div style={{alignItems: "center", display: "flex", justifyContent: "center"}}>
                   <Checkbox toggle
-                    value={this.state.isByURL}
+                    checked={this.state.isByURL}
                     onChange={() => this.setState(state => ({ isByURL: !state.isByURL, errors: [] }))}
                     label="New Deck From URL"
                   />
