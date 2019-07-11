@@ -44,7 +44,7 @@ class UserPage extends Component {
 
         {
           this.state.userProfile.id ? (
-            <Segment className="m-3 transparent">
+            <Segment className="m-5 transparent">
               <WUBRGBanner size="small"/>
 
               <h4 style={{textAlign: "center", fontFamily: "Beleren"}}>

@@ -33,7 +33,7 @@ class EditProfilePage extends Component {
       <Fragment>
         <Header/>
 
-        <Segment className="m-3">
+        <Segment className="m-5">
           <h4 style={{fontFamily: "Beleren", textAlign: "center"}}>
             Edit Profile
           </h4>

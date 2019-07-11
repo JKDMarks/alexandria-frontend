@@ -32,6 +32,9 @@ class EditDeckPage extends Component {
         if (deck.status === 404) {
           this.props.history.push("/")
         }
+        if (this.props.user.id !== deck.user_id) {
+          this.props.history.push("/")
+        }
         const { name, format, image, decklist } = deck
         this.setState({ name, format, image, decklist })
       })

@@ -39,7 +39,7 @@ class UsersPage extends Component {
       <Fragment>
         <Header/>
 
-        <Segment className="m-3 transparent">
+        <Segment className="m-5 transparent">
           <h4 className="mb-3" style={{fontFamily: "Beleren", textAlign: "center"}}>Users</h4>
           <Card.Group itemsPerRow={6}>
             { this.renderUsers() }

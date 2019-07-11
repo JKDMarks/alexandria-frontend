@@ -300,7 +300,7 @@ class DeckPage extends Component {
         <Header/>
         {
           this.state.deck.id && this.props.user ? (
-            <Segment className="m-3 transparent">
+            <Segment className="m-5 transparent">
               <h4 style={{fontFamily: "Beleren", textAlign: "center"}}>
                 {this.state.deck.name}
               </h4>

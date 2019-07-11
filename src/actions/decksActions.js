@@ -30,7 +30,7 @@ export function updateDeck(deckObj, history) {
       body: JSON.stringify(deckObj)
     }).then(r => r.json())
       .then(deck => {
-        dispatch({ type: "ADD_DECK", deck })
+        // dispatch({ type: "ADD_DECK", deck })
         history.push(`/decks/${deck.id}`)
       })
       .catch(error => console.log(error))

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Header from '../components/Header'
 import { connect } from 'react-redux'
 import { fetchDecks } from '../actions/decksActions'
+import { testImage } from '../actions/cardsActions'
 import DeckCardsGroup from '../components/DeckCardsGroup.js'
 
 class PageOfDecks extends Component {
@@ -20,6 +21,12 @@ class PageOfDecks extends Component {
 
   componentDidMount() {
     this.props.fetchDecks()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.decks !== this.props.decks) {
+      this.props.decks.forEach(deck => testImage({imageURL: deck.image, deckId: deck.id}))
+    }
   }
 
   goToDeckPage = e => {
