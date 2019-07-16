@@ -1,70 +1,26 @@
-[Link to Backend](https://github.com/Jeffrey-Marks/alexandria-backend/)
+<img src="https://i.imgur.com/VdBlP49.png" alt="Alexandria logo">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A website for uploading, managing, and organizing Magic: the Gathering decklists.
 
-## Available Scripts
+[(Link to Backend)](https://github.com/Jeffrey-Marks/alexandria-backend/)
 
-In the project directory, you can run:
+## Inspiration
 
-### `npm start`
+There are many MTG decklists websites online, but no one of them has all of the features that I desired. Therefore, I made a site of my own.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features and Challenges
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Decklists can be uploaded as text (e.g. "4 Card Name 1 \n 3 Card Name 2 \n etc...") or from a URL. They can be favorited to save for later. Each decklist has some relevant stats displayed as graphs on that deck's page.
 
-### `npm test`
+Users have to authenticaticate before they can view the content on the site and they can only view pages they are authorized to do so (i.e. can't edit another user's deck).
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Due to card images from an external API sometimes not loading properly, this app will automatically send off requests to update those images that do not load.
 
-### `npm run build`
+## Built With
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* [React](https://reactjs.org/) - User interface library for JS
+* [React Router](https://reacttraining.com/react-router/) - Manages routes and multiple pages for React
+* [Redux](https://redux.js.org/) - Global state management library used with React
+  * [Redux Thunk](https://github.com/reduxjs/redux-thunk) - Allows for asynchronous updates of Redux state
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* [Scryfall](https://scryfall.com/docs/api) - Amazing API for Magic cards
