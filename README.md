@@ -2,11 +2,11 @@
 
 A website for uploading, managing, and organizing Magic: the Gathering decklists.
 
-[(Link to Backend)](https://github.com/Jeffrey-Marks/alexandria-backend/)
+**[(Link to Backend)](https://github.com/Jeffrey-Marks/alexandria-backend/)**
 
 ## Inspiration
 
-There are many MTG decklists websites online, but no one of them has all of the features that I desired. Therefore, I made a site of my own.
+There are many MTG decklists websites online, but no one of them has all of the features that I desired. *Alexandria* was created as a way to integrate all of these features.
 
 ## Features and Challenges
 
@@ -24,3 +24,10 @@ Due to card images from an external API sometimes not loading properly, this app
   * [Redux Thunk](https://github.com/reduxjs/redux-thunk) - Allows for asynchronous updates of Redux state
 
 * [Scryfall](https://scryfall.com/docs/api) - Amazing API for Magic cards
+* [React Semantic](https://react.semantic-ui.com/) & [React Bootstrap](https://react-bootstrap.github.io/) - UI libraries
+* [PrimeReact](https://www.primefaces.org/primereact/#/) - Wraps [Chart.js](https://www.chartjs.org/) graphs in React Components
+* [Moment.js](https://momentjs.com/) - Time formatting
+
+## Notes
+
+Named after the [famous card](https://scryfall.com/card/arn/76/library-of-alexandria) and the (more) famous library. In Magic your deck is called a library.
