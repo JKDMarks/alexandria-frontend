@@ -83,7 +83,7 @@ class UserPage extends Component {
                       <img src={this.state.userProfile.favorite_card.image_uris.large} alt="fav card"/>
                     ) : (
                       <img
-                        src="https://img.scryfall.com/cards/large/en/unh/44.jpg?1520015716"
+                        src="https://img.scryfall.com/cards/large/front/0/8/08b8afa9-9e9d-4552-8709-4ba4af79ead3.jpg?1562487447"
                         alt="Richard Garfield, PhD"
                       />
                     )
